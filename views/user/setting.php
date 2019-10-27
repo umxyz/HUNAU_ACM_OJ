@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Setting');
             [
                 'label' => Yii::t('app', 'Profile'),
                 'url' => ['user/setting', 'action' => 'profile'],
-            ],
+            ]/*,
             [
                 'label' => Yii::t('app', 'Account'),
                 'url' => ['user/setting', 'action' => 'account'],
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Setting');
             [
                 'label' => Yii::t('app', 'Security'),
                 'url' => ['user/setting', 'action' => 'security'],
-            ]
+            ]*/
         ];
         echo Nav::widget([
             'items' => $menuItems,

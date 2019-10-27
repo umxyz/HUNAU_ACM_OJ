@@ -53,7 +53,7 @@
 帮助文档
 --------
 
-1. [安装教程](ocs/install.md)
+1. [安装教程](docs/install.md)
 2. [更新教程](docs/update.md)
 3. [Wiki](docs/wiki.md)
 
@@ -88,4 +88,3 @@ QQ、微信：
       web/                Web 入口目录
       widgets/            各种插件
       socket.php          用于启动 Socket，提供消息通知功能
-

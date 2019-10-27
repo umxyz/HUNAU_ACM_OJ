@@ -12,7 +12,7 @@ use yii\bootstrap\ActiveForm;
 <?php $form = ActiveForm::begin(); ?>
 
 <?= $form->field($model, 'nickname')->textInput() ?>
-
+<!--
 <?= $form->field($profile, 'qq_number')->textInput() ?>
 
 <?= $form->field($profile, 'student_number')->textInput() ?>
@@ -20,6 +20,12 @@ use yii\bootstrap\ActiveForm;
 <?= $form->field($profile, 'gender')->radioList([Yii::t('app', 'Male'), Yii::t('app', 'Female')]) ?>
 
 <?= $form->field($profile, 'major')->textInput() ?>
+-->
+<?= $form->field($model, 'oldPassword')->textInput() ?>
+
+<?= $form->field($model, 'newPassword')->textInput() ?>
+
+<?= $form->field($model, 'verifyPassword')->textInput() ?>
 
 <div class="form-group">
     <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

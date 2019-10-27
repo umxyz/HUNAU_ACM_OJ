@@ -61,7 +61,7 @@ $status = $model->getRunStatus();
         $menuItems[] = ['label' => Yii::t('app', 'Contest'), 'url' => ['/contest/index']];
     }
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
+       // $menuItems[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
         $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
     } else {
         if (Yii::$app->user->identity->role == \app\models\User::ROLE_ADMIN) {

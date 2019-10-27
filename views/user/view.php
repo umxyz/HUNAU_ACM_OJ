@@ -131,6 +131,7 @@ $this->registerJs($plotJS);
                             },
                             'format' => 'raw'
                         ],
+			'email',
                         [
                             'attribute' => Yii::t('app', 'Major'),
                             'value' => function ($model, $widget) {
