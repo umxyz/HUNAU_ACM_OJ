@@ -22,9 +22,10 @@ $submit_count = $rankResult['submit_count'];
     <thead>
     <tr>
         <th width="60px">Rank</th>
-        <th width="200px">Who</th>
-        <th width="80px">测评总分</th>
-        <th width="80px">订正总分</th>
+		<th width="100px">用户名</th>
+        <th width="80px">Name</th>
+       <!-- <th width="80px">过题总分</th> -->
+        <th width="60px">总分</th>	<!--评测总分-->
         <?php foreach($problems as $key => $p): ?>
             <th>
                 <?= Html::a(chr(65 + $key), ['/contest/problem', 'id' => $model->id, 'pid' => $key]) ?>
@@ -63,11 +64,14 @@ $submit_count = $rankResult['submit_count'];
                 }
                 ?>
             </th>
+			<th class="score-time">
+                <?= $rank['username'] ?>
             <th>
                 <?= Html::a(Html::encode($rank['nickname']), ['/user/view', 'id' => $rank['user_id']]) ?>
             </th>
-            <th class="score-solved">
+           <!-- <th class="score-solved">
                 <?= $rank['total_score'] ?>
+            </th> -->
             </th>
             <th class="score-time">
                 <?= $rank['correction_score'] ?>

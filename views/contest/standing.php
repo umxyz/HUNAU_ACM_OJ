@@ -31,7 +31,7 @@ $this->registerJs($js);
             <div class="checkbox">
                 <label>
                     <?= Html::checkbox('showStandingBeforeEnd', $showStandingBeforeEnd) ?>
-                    显示比赛期间榜单
+                    显示非比赛期间榜单	<!-- 原: 显示比赛期间榜单 -->
                 </label>
             </div>
             <?= Html::endForm(); ?>

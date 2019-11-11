@@ -40,7 +40,7 @@ AppAsset::register($this);
                     </div>
                     <div class="brand">
                        <!-- Online Judge -->
-			ACM创新实验室
+						ACM创新实验室
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -49,9 +49,10 @@ AppAsset::register($this);
     </header>
     <?php
     NavBar::begin([
-       // 'brandLabel' => Yii::$app->setting->get('ojName') . ' OJ',
-	'brandLabel' => '祝每一个认真刷题的人都能愿望成真',
-        'brandUrl' => Yii::$app->homeUrl,
+		#'brandLabel' => Yii::$app->setting->get('ojName') . ' OJ',
+		'brandLabel' => '比赛报名点击此处',
+        #'brandUrl' => Yii::$app->homeUrl,
+		'brandUrl' => 'http://hk.mikecrm.com/ydfb2sZ',
         'options' => [
             'class' => 'navbar-default',
         ],
@@ -77,9 +78,12 @@ AppAsset::register($this);
         ],*/
     ];
     if (Yii::$app->user->isGuest) {
-       // $menuItems[] = ['label' => '<span class="glyphicon glyphicon-new-window"></span> ' . Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
+       // $menuItems[] = ['label' => '<span class="glyphicon glyphicon-new-window"></span> ' . Yii::t('app', 'Signup'), 'url' => ['/polygon']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> ' . Yii::t('app', 'Login'), 'url' => ['/site/login']];
     } else {
+		if (Yii::$app->user->identity->role == \app\models\User::ROLE_VIP || Yii::$app->user->identity->role == \app\models\User::ROLE_ADMIN) {	// 新增 VIP和管理员用户 访问 Polygon System 入口
+			$menuItems[] = ['label' => '<span class="glyphicon glyphicon-cog"></span> ' . Yii::t('app', 'Polygon System'), 'url' => ['/polygon', 'action' => 'polygon']];
+		}
         if (Yii::$app->user->identity->role == \app\models\User::ROLE_ADMIN) {
             $menuItems[] = [
                 'label' => '<span class="glyphicon glyphicon-cog"></span> ' . Yii::t('app', 'Backend'),
@@ -91,7 +95,7 @@ AppAsset::register($this);
             'label' => '<span class="glyphicon glyphicon-user"></span> ' . Yii::$app->user->identity->nickname,
             'items' => [
                 ['label' => '<span class="glyphicon glyphicon-home"></span> ' . Yii::t('app', 'Profile'), 'url' => ['/user/view', 'id' => Yii::$app->user->id]],
-                ['label' => '<span class="glyphicon glyphicon-cog"></span> ' . Yii::t('app', 'Setting'), 'url' => ['/user/setting', 'action' => 'profile']],
+               // ['label' => '<span class="glyphicon glyphicon-cog"></span> ' . Yii::t('app', 'Setting'), 'url' => ['/user/setting', 'action' => 'profile']],
                 '<li class="divider"></li>',
                 ['label' => '<span class="glyphicon glyphicon-log-out"></span> ' . Yii::t('app', 'Logout'), 'url' => ['/site/logout']],
             ]
