@@ -20,6 +20,7 @@ $submit_count = $rankResult['submit_count'];
 ?>
 <table class="table table-bordered table-rank" style="margin-top: 15px">
     <thead>
+<<<<<<< HEAD
         <tr>
             <th width="60px">Rank</th>
             <th width="100px">用户名</th>
@@ -49,6 +50,36 @@ $submit_count = $rankResult['submit_count'];
                 </th>
             <?php endforeach; ?>
         </tr>
+=======
+    <tr>
+        <th width="60px">Rank</th>
+		<th width="100px">用户名</th>
+        <th width="80px">Name</th>
+       <!-- <th width="80px">过题总分</th> -->
+        <th width="60px">总分</th>	<!--评测总分-->
+        <?php foreach($problems as $key => $p): ?>
+            <th>
+                <?= Html::a(chr(65 + $key), ['/contest/problem', 'id' => $model->id, 'pid' => $key]) ?>
+                <br>
+                <span style="color:#7a7a7a; font-size:12px">
+                    <?php
+                    if (isset($submit_count[$p['problem_id']]['solved']))
+                        echo $submit_count[$p['problem_id']]['solved'];
+                    else
+                        echo 0;
+                    ?>
+                    /
+                    <?php
+                    if (isset($submit_count[$p['problem_id']]['submit']))
+                        echo $submit_count[$p['problem_id']]['submit'];
+                    else
+                        echo 0;
+                    ?>
+                </span>
+            </th>
+        <?php endforeach; ?>
+    </tr>
+>>>>>>> b9aff6cc0b42bfe18f2df68c1455be5b4367a8a4
     </thead>
     <tbody>
         <?php for ($i = 0, $ranking = 1; $i < count($result); $i++) : ?>
@@ -80,6 +111,7 @@ $submit_count = $rankResult['submit_count'];
                     <?= $rank['correction_score'] ?>
                 </th>
                 <?php
+<<<<<<< HEAD
                     foreach ($problems as $key => $p) {
                         $score = "";
                         $max_score = "";
@@ -117,6 +149,67 @@ $submit_count = $rankResult['submit_count'];
                     ?>
             </tr>
         <?php endfor; ?>
+=======
+                //线下赛，参加比赛但不参加排名的处理
+                if ($model->scenario == Contest::SCENARIO_OFFLINE && $rank['role'] != \app\models\User::ROLE_PLAYER) {
+                    echo '*';
+                } else {
+                    echo $ranking;
+                    $ranking++;
+                }
+                ?>
+            </th>
+			<th class="score-time">
+                <?= $rank['username'] ?>
+            <th>
+                <?= Html::a(Html::encode($rank['nickname']), ['/user/view', 'id' => $rank['user_id']]) ?>
+            </th>
+           <!-- <th class="score-solved">
+                <?= $rank['total_score'] ?>
+            </th> -->
+            </th>
+            <th class="score-time">
+                <?= $rank['correction_score'] ?>
+            </th>
+            <?php
+            foreach($problems as $key => $p) {
+                $score = "";
+                $max_score = "";
+                $css_class = '';
+                if (isset($rank['ac_time'][$p['problem_id']])) {
+                    $css_class = 'solved-first';
+                } else if (isset($rank['pending'][$p['problem_id']]) && $rank['pending'][$p['problem_id']]) {
+                    $css_class = 'pending';
+                } else if (isset($rank['score'][$p['problem_id']]) && $rank['score'][$p['problem_id']] > 0) {
+                    $css_class = 'solved';
+                } else if (isset($rank['score'][$p['problem_id']]) && $rank['score'][$p['problem_id']] == 0) {
+                    $css_class = 'attempted';
+                }
+                if (isset($rank['score'][$p['problem_id']])) {
+                    $score = $rank['score'][$p['problem_id']];
+                    $max_score = $rank['max_score'][$p['problem_id']];
+                }
+                // 封榜的显示
+                if ($model->isScoreboardFrozen() && isset($rank['pending'][$p['problem_id']]) && $rank['pending'][$p['problem_id']]) {
+                    $score = "";
+                    $max_score = "";
+                }
+                if ((!Yii::$app->user->isGuest && $model->created_by == Yii::$app->user->id) || $model->isContestEnd()) {
+                    $url = Url::toRoute([
+                        '/contest/submission',
+                        'pid' => $p['problem_id'],
+                        'cid' => $model->id,
+                        'uid' => $rank['user_id']
+                    ]);
+                    echo "<th class=\"table-problem-cell {$css_class}\" style=\"cursor:pointer\" data-click='submission' data-href='{$url}'>{$score}<br><small>{$max_score}</small></th>";
+                } else {
+                    echo "<th class=\"table-problem-cell {$css_class}\">{$score}<br><small>{$max_score}</small></th>";
+                }
+            }
+            ?>
+        </tr>
+    <?php endfor; ?>
+>>>>>>> b9aff6cc0b42bfe18f2df68c1455be5b4367a8a4
     </tbody>
 </table>
 

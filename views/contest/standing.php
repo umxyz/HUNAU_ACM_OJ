@@ -31,7 +31,11 @@ $this->registerJs($js);
             <div class="checkbox">
                 <label>
                     <?= Html::checkbox('showStandingBeforeEnd', $showStandingBeforeEnd) ?>
+<<<<<<< HEAD
                     显示实时提交榜单	<!-- 原: 显示比赛期间榜单 -->
+=======
+                    显示非比赛期间榜单	<!-- 原: 显示比赛期间榜单 -->
+>>>>>>> b9aff6cc0b42bfe18f2df68c1455be5b4367a8a4
                 </label>
             </div>
             <?= Html::endForm(); ?>
