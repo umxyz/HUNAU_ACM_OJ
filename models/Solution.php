@@ -446,8 +446,13 @@ class Solution extends ActiveRecord
                 return true;
             }
 
-            // 对于比赛中的提交，普通用户能查看自己的 Compile Error 所记录的信息
+			// 对于比赛中的提交，普通用户能查看自己的 Compile Error 所记录的信息
             if ($this->created_by == Yii::$app->user->id && $this->result == self::OJ_CE) {
+                return true;
+            }
+			
+            // 对于比赛模式为 IOI 中的提交，普通用户能查看自己的 Wrong Answer 所记录的信息
+            if ($contest['type'] == Contest::TYPE_IOI && $this->created_by == Yii::$app->user->id && $this->result == self::OJ_WA) {
                 return true;
             }
         }

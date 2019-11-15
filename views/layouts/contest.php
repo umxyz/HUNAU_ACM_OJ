@@ -167,12 +167,12 @@ $status = $model->getRunStatus();
                         'url' => ['contest/clarify', 'id' => $model->id],
                     ],
                 ];
-                if ($model->scenario == $model::SCENARIO_OFFLINE && $model->getRunStatus() == $model::STATUS_RUNNING) {
+               /* if ($model->scenario == $model::SCENARIO_OFFLINE && $model->getRunStatus() == $model::STATUS_RUNNING) {
                     $menuItems[] = [
                         'label' => '<span class="glyphicon glyphicon-print"></span> 打印服务',
                         'url' => ['/contest/print', 'id' => $model->id]
                     ];
-                }
+                } */
                 if ($model->isContestEnd()) {
                     $menuItems[] = [
                         'label' => '<span class="glyphicon glyphicon-info-sign"></span> ' . Yii::t('app', 'Editorial'),

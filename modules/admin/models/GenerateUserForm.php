@@ -77,7 +77,7 @@ class GenerateUserForm extends Model
             $user = new User();
             $user->username = $this->prefix . $i;
             $user->nickname = $nick;
-            $user->email = $this->prefix . $i . '@jnoj.org';
+            $user->email = $this->prefix . $i . '@HUNAU_ACM.org';
             $user->role = User::ROLE_PLAYER;
             $user->setPassword($password);
             $user->generateAuthKey();

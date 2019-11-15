@@ -574,10 +574,10 @@ class Contest extends \yii\db\ActiveRecord
             $result[$user['user_id']]['role'] = $user['role'];
             $result[$user['user_id']]['rating'] = $user['rating'];
             $result[$user['user_id']]['solved'] = 0;
-            $result[$user['user_id']]['total_score'] = 0; // 测评总分
+            $result[$user['user_id']]['total_score'] = 0; // 测评总分 total_score
             $result[$user['user_id']]['score'] = [];
             $result[$user['user_id']]['max_score'] = [];
-            $result[$user['user_id']]['correction_score'] = 0; //订正总分
+            $result[$user['user_id']]['correction_score'] = 0; //订正总分 correction_score
             $result[$user['user_id']]['student_number'] = $user['student_number'];
         }
 
@@ -652,7 +652,7 @@ class Contest extends \yii\db\ActiveRecord
 
         foreach ($result as &$v) {
             foreach ($v['score'] as $s) {
-                $v['total_score'] += $s;
+                $v['total_score'] += $s;	// $s
             }
             foreach ($v['max_score'] as $s) {
                 $v['correction_score'] += $s;
@@ -660,11 +660,11 @@ class Contest extends \yii\db\ActiveRecord
         }
 
         usort($result, function($a, $b) {
-            if ($a['total_score'] != $b['total_score']) { // 优先测评总分
-                return $a['total_score'] < $b['total_score'];
-            } else { //订正总分
+            if ($a['correction_score'] != $b['correction_score']) { // 优先订正总分 correction_score
                 return $a['correction_score'] < $b['correction_score'];
-            }
+            }/* else { // 评测总分 total_score
+                return $a['total_score'] < $b['total_score'];
+            }*/
         });
 
         return [
