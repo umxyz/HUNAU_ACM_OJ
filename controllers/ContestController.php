@@ -378,7 +378,11 @@ class ContestController extends Controller
         if (Yii::$app->request->get('showStandingBeforeEnd')) {
             $showStandingBeforeEnd = Yii::$app->request->get('showStandingBeforeEnd');
         }
+<<<<<<< HEAD
         if ($showStandingBeforeEnd == 0) {    //	原代码if ($showStandingBeforeEnd)
+=======
+        if ($showStandingBeforeEnd == 0) {	//	原代码if ($showStandingBeforeEnd)
+>>>>>>> 661e3673f0018d69c4624923abe61974cb96011b
             $rankResult = $model->getRankData(true);
         } else {
             $rankResult = $model->getRankData(true, time());
