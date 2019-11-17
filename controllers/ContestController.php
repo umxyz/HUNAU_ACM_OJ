@@ -290,8 +290,8 @@ class ContestController extends Controller
             // 判断是否已经参赛，提交即参加比赛
             if (!$model->isUserInContest()) {
                 Yii::$app->db->createCommand()->insert('{{%contest_user}}', [
-                   'contest_id' => $model->id,
-                   'user_id' => Yii::$app->user->id
+                    'contest_id' => $model->id,
+                    'user_id' => Yii::$app->user->id
                 ])->execute();
             }
             $newClarify->entity = Discuss::ENTITY_CONTEST;
@@ -378,7 +378,7 @@ class ContestController extends Controller
         if (Yii::$app->request->get('showStandingBeforeEnd')) {
             $showStandingBeforeEnd = Yii::$app->request->get('showStandingBeforeEnd');
         }
-        if ($showStandingBeforeEnd) {
+        if ($showStandingBeforeEnd == 0) {    //	原代码if ($showStandingBeforeEnd)
             $rankResult = $model->getRankData(true);
         } else {
             $rankResult = $model->getRankData(true, time());

@@ -421,7 +421,7 @@ a.desc:after {
     margin: 0 25%;
 }
 .solved {
-    background-color: #AAE2AB;
+    background-color: #F8A1A4;
 }
 
 .solved-first {
@@ -430,7 +430,7 @@ a.desc:after {
 }
 
 .attempted {
-    background-color: #F67B51;
+    background-color: #EB641B;
 }
 
 .pending {
