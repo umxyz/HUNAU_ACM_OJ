@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `jnoj` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `jnoj`;
+CREATE DATABASE  IF NOT EXISTS `sys` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `sys`;
 -- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
 --
--- Host: 172.28.210.177    Database: jnoj
+-- Host: 172.28.210.177    Database: sys
 -- ------------------------------------------------------
--- Server version	5.7.27-0ubuntu0.18.04.1
+-- Server version	5.7.28-0ubuntu0.18.04.4
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,27 +18,29 @@ USE `jnoj`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `migration`
+-- Table structure for table `sys_config`
 --
 
-DROP TABLE IF EXISTS `migration`;
+DROP TABLE IF EXISTS `sys_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `migration` (
-  `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `sys_config` (
+  `variable` varchar(128) NOT NULL,
+  `value` varchar(128) DEFAULT NULL,
+  `set_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `set_by` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`variable`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `migration`
+-- Dumping data for table `sys_config`
 --
 
-LOCK TABLES `migration` WRITE;
-/*!40000 ALTER TABLE `migration` DISABLE KEYS */;
-INSERT INTO `migration` VALUES ('m000000_000000_base',1559048376),('m180401_030422_import_initial_table',1559048416),('m180404_135413_insert_basic_data',1559048417),('m180929_073954_update_polygon_status',1559048418),('m181109_032216_index',1559048424),('m181226_104846_fix_contest_announcement',1559048426),('m190309_123832_setting',1559048427),('m190315_134224_solution_change',1559048428),('m190402_104247_group',1559048429),('m190519_024551_problem_solution',1559048430);
-/*!40000 ALTER TABLE `migration` ENABLE KEYS */;
+LOCK TABLES `sys_config` WRITE;
+/*!40000 ALTER TABLE `sys_config` DISABLE KEYS */;
+INSERT INTO `sys_config` VALUES ('diagnostics.allow_i_s_tables','OFF','2019-05-28 12:43:49',NULL),('diagnostics.include_raw','OFF','2019-05-28 12:43:49',NULL),('ps_thread_trx_info.max_length','65535','2019-05-28 12:43:49',NULL),('statement_performance_analyzer.limit','100','2019-05-28 12:43:49',NULL),('statement_performance_analyzer.view',NULL,'2019-05-28 12:43:49',NULL),('statement_truncate_len','64','2019-05-28 12:43:49',NULL);
+/*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed
+-- Dump completed on 2019-12-12 15:19:47

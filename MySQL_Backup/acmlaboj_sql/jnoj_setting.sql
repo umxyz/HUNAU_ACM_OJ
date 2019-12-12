@@ -4,7 +4,7 @@ USE `jnoj`;
 --
 -- Host: 172.28.210.177    Database: jnoj
 -- ------------------------------------------------------
--- Server version	5.7.27-0ubuntu0.18.04.1
+-- Server version	5.7.28-0ubuntu0.18.04.4
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,33 +18,28 @@ USE `jnoj`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `group`
+-- Table structure for table `setting`
 --
 
-DROP TABLE IF EXISTS `group`;
+DROP TABLE IF EXISTS `setting`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `group` (
+CREATE TABLE `setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `status` tinyint(3) NOT NULL,
-  `join_policy` tinyint(3) NOT NULL DEFAULT '0',
-  `created_by` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `value` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `group`
+-- Dumping data for table `setting`
 --
 
-LOCK TABLES `group` WRITE;
-/*!40000 ALTER TABLE `group` DISABLE KEYS */;
-INSERT INTO `group` VALUES (1,'HUNAU ACM','AcmLab',1,0,3,'2019-05-30 11:50:48','2019-09-11 22:26:43'),(2,'ACM 2019','申请的账户 用户名为学号 昵称为姓名 ＱＱ号学号专业为真实信息 否则不予通过',1,1,3,'2019-06-04 09:14:12','2019-09-11 22:26:18');
-/*!40000 ALTER TABLE `group` ENABLE KEYS */;
+LOCK TABLES `setting` WRITE;
+/*!40000 ALTER TABLE `setting` DISABLE KEYS */;
+INSERT INTO `setting` VALUES (1,'ojName','HUNAU ACM'),(2,'schoolName','湖南农业大学'),(3,'scoreboardFrozenTime','300'),(4,'isShareCode','0'),(5,'oiMode','1');
+/*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed
+-- Dump completed on 2019-12-12 15:19:51

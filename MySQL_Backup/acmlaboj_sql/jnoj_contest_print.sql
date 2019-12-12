@@ -4,7 +4,7 @@ USE `jnoj`;
 --
 -- Host: 172.28.210.177    Database: jnoj
 -- ------------------------------------------------------
--- Server version	5.7.27-0ubuntu0.18.04.1
+-- Server version	5.7.28-0ubuntu0.18.04.4
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,31 +18,32 @@ USE `jnoj`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `contest_problem`
+-- Table structure for table `contest_print`
 --
 
-DROP TABLE IF EXISTS `contest_problem`;
+DROP TABLE IF EXISTS `contest_print`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `contest_problem` (
+CREATE TABLE `contest_print` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `problem_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `source` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `status` smallint(6) NOT NULL DEFAULT '0',
   `contest_id` int(11) NOT NULL,
-  `num` smallint(6) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idx_problem_id` (`problem_id`),
+  KEY `idx_user_id` (`user_id`),
   KEY `idx_contest_id` (`contest_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `contest_problem`
+-- Dumping data for table `contest_print`
 --
 
-LOCK TABLES `contest_problem` WRITE;
-/*!40000 ALTER TABLE `contest_problem` DISABLE KEYS */;
-INSERT INTO `contest_problem` VALUES (51,11,2,0),(53,12,2,1),(55,13,2,2),(56,16,2,3),(57,19,2,4),(58,20,2,5),(59,21,2,6),(60,22,2,7),(61,24,2,8),(62,26,2,9),(63,28,2,10),(65,30,2,11);
-/*!40000 ALTER TABLE `contest_problem` ENABLE KEYS */;
+LOCK TABLES `contest_print` WRITE;
+/*!40000 ALTER TABLE `contest_print` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contest_print` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed
+-- Dump completed on 2019-12-12 15:19:51

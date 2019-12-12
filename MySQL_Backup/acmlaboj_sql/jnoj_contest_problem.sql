@@ -4,7 +4,7 @@ USE `jnoj`;
 --
 -- Host: 172.28.210.177    Database: jnoj
 -- ------------------------------------------------------
--- Server version	5.7.27-0ubuntu0.18.04.1
+-- Server version	5.7.28-0ubuntu0.18.04.4
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,35 +18,31 @@ USE `jnoj`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_profile`
+-- Table structure for table `contest_problem`
 --
 
-DROP TABLE IF EXISTS `user_profile`;
+DROP TABLE IF EXISTS `contest_problem`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_profile` (
-  `user_id` int(11) NOT NULL,
-  `gender` smallint(6) DEFAULT '0',
-  `qq_number` bigint(11) DEFAULT NULL,
-  `birthdate` date DEFAULT NULL,
-  `signature` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `school` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `student_number` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `major` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `contest_problem` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `problem_id` int(11) NOT NULL,
+  `contest_id` int(11) NOT NULL,
+  `num` smallint(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_problem_id` (`problem_id`),
+  KEY `idx_contest_id` (`contest_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_profile`
+-- Dumping data for table `contest_problem`
 --
 
-LOCK TABLES `user_profile` WRITE;
-/*!40000 ALTER TABLE `user_profile` DISABLE KEYS */;
-INSERT INTO `user_profile` VALUES (1,0,NULL,NULL,NULL,NULL,NULL,NULL,'',''),(2,0,NULL,NULL,NULL,NULL,NULL,NULL,'201841875319',NULL),(3,0,229781766,NULL,NULL,NULL,NULL,NULL,'201841903215',''),(4,0,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL),(5,0,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL),(6,0,NULL,NULL,NULL,NULL,NULL,NULL,'201841903215',NULL),(7,0,NULL,NULL,NULL,NULL,NULL,NULL,'张律威',NULL);
-/*!40000 ALTER TABLE `user_profile` ENABLE KEYS */;
+LOCK TABLES `contest_problem` WRITE;
+/*!40000 ALTER TABLE `contest_problem` DISABLE KEYS */;
+INSERT INTO `contest_problem` VALUES (51,11,2,0),(53,12,2,1),(55,13,2,2),(56,16,2,3),(57,19,2,4),(58,20,2,5),(59,21,2,6),(60,22,2,7),(61,24,2,8),(62,26,2,9),(63,28,2,10),(65,30,2,11),(66,31,3,0),(67,32,3,1),(68,33,3,2),(69,34,3,3),(70,35,3,4),(71,36,3,5),(72,37,3,6),(73,38,3,7),(74,39,3,8),(76,41,3,9),(77,15,1,0);
+/*!40000 ALTER TABLE `contest_problem` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed
+-- Dump completed on 2019-12-12 15:19:50

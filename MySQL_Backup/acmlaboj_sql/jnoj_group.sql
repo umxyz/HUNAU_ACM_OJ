@@ -4,7 +4,7 @@ USE `jnoj`;
 --
 -- Host: 172.28.210.177    Database: jnoj
 -- ------------------------------------------------------
--- Server version	5.7.27-0ubuntu0.18.04.1
+-- Server version	5.7.28-0ubuntu0.18.04.4
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,38 +18,33 @@ USE `jnoj`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `contest`
+-- Table structure for table `group`
 --
 
-DROP TABLE IF EXISTS `contest`;
+DROP TABLE IF EXISTS `group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `contest` (
+CREATE TABLE `group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `start_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
-  `lock_board_time` datetime DEFAULT NULL,
-  `status` smallint(6) DEFAULT NULL,
-  `editorial` text COLLATE utf8_unicode_ci,
-  `description` text COLLATE utf8_unicode_ci,
-  `type` smallint(6) NOT NULL DEFAULT '0',
-  `group_id` int(11) NOT NULL DEFAULT '0',
-  `scenario` smallint(6) NOT NULL DEFAULT '0',
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `status` tinyint(3) NOT NULL,
+  `join_policy` tinyint(3) NOT NULL DEFAULT '0',
   `created_by` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_created_by` (`created_by`)
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `contest`
+-- Dumping data for table `group`
 --
 
-LOCK TABLES `contest` WRITE;
-/*!40000 ALTER TABLE `contest` DISABLE KEYS */;
-INSERT INTO `contest` VALUES (0,'作业题目汇总','2019-06-01 00:00:00','2020-01-01 00:00:00',NULL,2,'<p>&nbsp;</p>','<p>&nbsp;</p>',5,2,0,3),(1,'是不是很久没有敲代码了？快来参加比赛练练手把','2019-06-01 00:00:00','2020-01-01 00:00:00',NULL,1,NULL,'<p>&nbsp;</p>',5,0,1,3),(2,'2019新生第一次模拟赛','2019-11-07 13:00:00','2019-11-10 18:30:00',NULL,0,NULL,'<p>没有校园网的可以来实验室打比赛<br>比赛时间一共有两个时间段<br>11月7号 下午13:00 - 11月10号 晚上 18:30<br>可以网上找资料，但禁止互相传正确代码，后台会进行查重</p>',5,0,1,5);
-/*!40000 ALTER TABLE `contest` ENABLE KEYS */;
+LOCK TABLES `group` WRITE;
+/*!40000 ALTER TABLE `group` DISABLE KEYS */;
+INSERT INTO `group` VALUES (1,'HUNAU ACM','AcmLab',1,0,3,'2019-05-30 11:50:48','2019-09-11 22:26:43'),(2,'ACM 2019','申请的账户 用户名为学号 昵称为姓名 ＱＱ号学号专业为真实信息 否则不予通过',1,1,3,'2019-06-04 09:14:12','2019-09-11 22:26:18');
+/*!40000 ALTER TABLE `group` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -61,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed
+-- Dump completed on 2019-12-12 15:19:50

@@ -4,7 +4,7 @@ USE `jnoj`;
 --
 -- Host: 172.28.210.177    Database: jnoj
 -- ------------------------------------------------------
--- Server version	5.7.27-0ubuntu0.18.04.1
+-- Server version	5.7.28-0ubuntu0.18.04.4
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,29 +18,30 @@ USE `jnoj`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `contest_announcement`
+-- Table structure for table `group_user`
 --
 
-DROP TABLE IF EXISTS `contest_announcement`;
+DROP TABLE IF EXISTS `group_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `contest_announcement` (
+CREATE TABLE `group_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `contest_id` int(11) NOT NULL,
-  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role` tinyint(3) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `pk_contest_id` (`contest_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `contest_announcement`
+-- Dumping data for table `group_user`
 --
 
-LOCK TABLES `contest_announcement` WRITE;
-/*!40000 ALTER TABLE `contest_announcement` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contest_announcement` ENABLE KEYS */;
+LOCK TABLES `group_user` WRITE;
+/*!40000 ALTER TABLE `group_user` DISABLE KEYS */;
+INSERT INTO `group_user` VALUES (4,1,3,6,'2019-05-30 11:50:48'),(9,1,2,4,'2019-05-30 16:14:42'),(11,2,3,6,'2019-06-04 09:14:12'),(18,1,5,4,'2019-08-12 16:47:33'),(19,1,1,4,'2019-08-12 16:47:39'),(22,2,4,4,'2019-09-19 10:57:34'),(23,1,4,4,'2019-09-19 10:58:19'),(24,1,6,4,'2019-09-23 15:33:10');
+/*!40000 ALTER TABLE `group_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed
+-- Dump completed on 2019-12-12 15:19:51

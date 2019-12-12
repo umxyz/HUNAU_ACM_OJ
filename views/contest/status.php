@@ -22,13 +22,14 @@ foreach ($problems as $key => $p) {
     $nav[$p['problem_id']] = chr(65 + $key) . '-' . $p['title'];
 }
 $userInContest = $model->isUserInContest();
+$isContestEnd = $model->isContestEnd();
 ?>
 <div class="solution-index" style="margin-top: 20px">
-    <?php if ($model->type != \app\models\Contest::TYPE_OI && $model->isScoreboardFrozen()) :?>
+    <?php if ($model->isScoreboardFrozen()) :?>
         <p class="text-center">现已是封榜状态，榜单将不再实时更新，只显示封榜前的提交及您个人的所有提交记录。</p>
     <?php endif; ?>
     <?php Pjax::begin() ?>
-    <?php if ($model->type != \app\models\Contest::TYPE_OI || $model->isContestEnd()): ?>
+    <?php if ($model->type != Contest::TYPE_OI || $isContestEnd): ?>
     <?= $this->render('_status_search', ['model' => $searchModel, 'nav' => $nav, 'contest_id' => $model->id]); ?>
     <?php endif; ?>
 
@@ -69,14 +70,14 @@ $userInContest = $model->isUserInContest();
             ],
             [
                 'attribute' => 'result',
-                'value' => function ($solution, $key, $index, $column) use ($model, $userInContest) {
+                'value' => function ($solution, $key, $index, $column) use ($model, $userInContest, $isContestEnd) {
                     // OI 比赛模式未结束时不返回具体结果
-                    if ($model->type == Contest::TYPE_OI && !$model->isContestEnd()) {
-                        return "Pending";
+                    if ($model->type == Contest::TYPE_OI && !$isContestEnd) {
+                        return Yii::t('app', 'Pending');
                     }
-                    $otherCan = ($solution->status == 1 && Yii::$app->setting->get('isShareCode'));
+                    $otherCan = ($isContestEnd && Yii::$app->setting->get('isShareCode'));
                     $createdBy = (!Yii::$app->user->isGuest && ($model->created_by == Yii::$app->user->id || Yii::$app->user->id == $solution->created_by));
-                    if ($otherCan || $createdBy || $model->type == Contest::TYPE_HOMEWORK || ($userInContest && $model->isContestEnd())) {
+                    if ($otherCan || $createdBy || $model->type == Contest::TYPE_HOMEWORK || ($userInContest && $isContestEnd)) {
                         return Html::a($solution->getResult(),
                             ['/solution/result', 'id' => $solution->id],
                             ['onclick' => 'return false', 'data-click' => "solution_info", 'data-pjax' => 0]
@@ -90,13 +91,13 @@ $userInContest = $model->isUserInContest();
             [
                 'attribute' => 'score',
                 'visible' => $model->type == Contest::TYPE_IOI || $model->type == Contest::TYPE_HOMEWORK ||
-                            ($model->type == Contest::TYPE_OI && $model->isContestEnd())
+                            ($model->type == Contest::TYPE_OI && $isContestEnd)
             ],
             [
                 'attribute' => 'time',
-                'value' => function ($solution, $key, $index, $column) use ($model) {
+                'value' => function ($solution, $key, $index, $column) use ($model, $isContestEnd) {
                     // OI 比赛模式未结束时不返回具体结果
-                    if ($model->type == \app\models\Contest::TYPE_OI && !$model->isContestEnd()) {
+                    if ($model->type == \app\models\Contest::TYPE_OI && !$isContestEnd) {
                         return "－";
                     }
                     return $solution->time . ' MS';
@@ -105,9 +106,9 @@ $userInContest = $model->isUserInContest();
             ],
             [
                 'attribute' => 'memory',
-                'value' => function ($solution, $key, $index, $column) use ($model) {
+                'value' => function ($solution, $key, $index, $column) use ($model, $isContestEnd) {
                     // OI 比赛模式未结束时不返回具体结果
-                    if ($model->type == \app\models\Contest::TYPE_OI && !$model->isContestEnd()) {
+                    if ($model->type == \app\models\Contest::TYPE_OI && !$isContestEnd) {
                         return "－";
                     }
                     return $solution->memory . ' KB';
@@ -116,8 +117,9 @@ $userInContest = $model->isUserInContest();
             ],
             [
                 'attribute' => 'language',
-                'value' => function ($solution, $key, $index, $column) use ($model) {
-                    if ($solution->canViewSource()) {
+                'value' => function ($solution, $key, $index, $column) use ($model, $isContestEnd) {
+                    $otherCan = ($isContestEnd && Yii::$app->setting->get('isShareCode'));
+                    if ($solution->canViewSource() || $otherCan) {
                         return Html::a($solution->getLang(),
                             ['/solution/source', 'id' => $solution->id],
                             ['onclick' => 'return false', 'data-click' => "solution_info", 'data-pjax' => 0]
