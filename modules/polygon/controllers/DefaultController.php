@@ -5,12 +5,13 @@ namespace app\modules\polygon\controllers;
 /**
  * 增加权限控制  只有VIP和管理员权限才能利用polygon进行出题
  */
+
 use Yii;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use app\modules\polygon\models\Problem;
-use yii\filters\AccessControl;	// 权限控制
-use app\components\AccessRule;	// 权限控制
+use yii\filters\AccessControl;    // 权限控制
+use app\components\AccessRule;    // 权限控制
 use app\models\User;
 use app\modules\polygon\models\ProblemSearch;
 
@@ -19,11 +20,10 @@ use app\modules\polygon\models\ProblemSearch;
  */
 class DefaultController extends Controller
 {
-
     /**
      * @inheritdoc
      */
-    public function behaviors()	// 权限控制
+    public function behaviors()    // 权限控制
     {
         return [
             'access' => [
@@ -35,17 +35,15 @@ class DefaultController extends Controller
                     [
                         'allow' => true,
                         // Allow users, moderators and admins to create
-                        'roles' => [	// 允许访问列表
+                        'roles' => [    // 允许访问列表
                             User::ROLE_ADMIN,
-							User::ROLE_VIP
+                            User::ROLE_VIP
                         ],
                     ],
                 ],
             ],
         ];
     }
-
-
     /**
      * Renders the index view for the module
      * @return string
@@ -54,7 +52,6 @@ class DefaultController extends Controller
     {
         $searchModel = new ProblemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel

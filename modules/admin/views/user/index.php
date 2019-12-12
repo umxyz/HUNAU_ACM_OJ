@@ -56,8 +56,8 @@ $this->title = Yii::t('app', 'Users');
                 'format' => 'raw'
             ],
             // 'status',
-            'created_at',
-            'updated_at',
+            // 'created_at',
+            // 'updated_at',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);
@@ -65,7 +65,7 @@ $this->title = Yii::t('app', 'Users');
     $("#general-user").on("click", function () {
         var keys = $("#grid").yiiGridView("getSelectedRows");
         $.post({
-           url: "' . \yii\helpers\Url::to(['/admin/user/index', 'action' => \app\models\User::ROLE_USER]) . '", 
+           url: "'.\yii\helpers\Url::to(['/admin/user/index', 'action' => \app\models\User::ROLE_USER]).'", 
            dataType: \'json\',
            data: {keylist: keys}
         });
@@ -73,7 +73,7 @@ $this->title = Yii::t('app', 'Users');
     $("#vip-user").on("click", function () {
         var keys = $("#grid").yiiGridView("getSelectedRows");
         $.post({
-           url: "' . \yii\helpers\Url::to(['/admin/user/index', 'action' => \app\models\User::ROLE_VIP]) . '", 
+           url: "'.\yii\helpers\Url::to(['/admin/user/index', 'action' => \app\models\User::ROLE_VIP]).'", 
            dataType: \'json\',
            data: {keylist: keys}
         });

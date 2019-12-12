@@ -90,7 +90,7 @@ class ContestController extends Controller
     }
 
     /**
-     * 显示用户在某道题上的提交
+     * 显示用户在某道题上的提交列表
      * @param $pid
      * @param $cid
      * @return mixed
@@ -102,15 +102,17 @@ class ContestController extends Controller
         $this->layout = false;
         $model = $this->findModel($cid);
 
-        // 访问权限检查，代码仅作者可见
-        if ($model->getRunStatus() != Contest::STATUS_ENDED && !Yii::$app->user->isGuest && Yii::$app->user->id != $model->created_by) {
+        // 访问权限检查，比赛结束前提交列表仅作者可见，比赛结束后所有人可见
+        if (!$model->isContestEnd() && $model->type == Contest::TYPE_OI) {
+            throw new ForbiddenHttpException('You are not allowed to perform this action.');
+        }
+        if ((!$model->isContestEnd() || $model->isScoreboardFrozen()) && (Yii::$app->user->isGuest || Yii::$app->user->id != $model->created_by)) {
             throw new ForbiddenHttpException('You are not allowed to perform this action.');
         }
         $submissions = Yii::$app->db->createCommand(
             'SELECT id, result, created_at FROM {{%solution}} WHERE problem_id=:pid AND contest_id=:cid AND created_by=:uid ORDER BY id DESC',
             [':pid' => $pid, ':cid' => $model->id, ':uid' => $uid]
         )->queryAll();
-
         return $this->render('submission', [
             'submissions' => $submissions
         ]);
@@ -290,8 +292,8 @@ class ContestController extends Controller
             // 判断是否已经参赛，提交即参加比赛
             if (!$model->isUserInContest()) {
                 Yii::$app->db->createCommand()->insert('{{%contest_user}}', [
-                    'contest_id' => $model->id,
-                    'user_id' => Yii::$app->user->id
+                   'contest_id' => $model->id,
+                   'user_id' => Yii::$app->user->id
                 ])->execute();
             }
             $newClarify->entity = Discuss::ENTITY_CONTEST;
@@ -367,27 +369,44 @@ class ContestController extends Controller
      * @throws NotFoundHttpException
      * @throws \yii\db\Exception
      */
-    public function actionStanding($id)
+    public function actionStanding($id, $showStandingBeforeEnd = 1)
     {
         $model = $this->findModel($id);
         // 访问权限检查
         if (!$model->canView()) {
             return $this->render('/contest/forbidden', ['model' => $model]);
         }
-        $showStandingBeforeEnd = 0;
-        if (Yii::$app->request->get('showStandingBeforeEnd')) {
-            $showStandingBeforeEnd = Yii::$app->request->get('showStandingBeforeEnd');
-        }
-<<<<<<< HEAD
-        if ($showStandingBeforeEnd == 0) {    //	原代码if ($showStandingBeforeEnd)
-=======
-        if ($showStandingBeforeEnd == 0) {	//	原代码if ($showStandingBeforeEnd)
->>>>>>> 661e3673f0018d69c4624923abe61974cb96011b
+        if ($showStandingBeforeEnd) {
             $rankResult = $model->getRankData(true);
         } else {
             $rankResult = $model->getRankData(true, time());
         }
         return $this->render('/contest/standing', [
+            'model' => $model,
+            'rankResult' => $rankResult,
+            'showStandingBeforeEnd' => $showStandingBeforeEnd
+        ]);
+    }
+
+    /**
+     * 比赛期间可对外公布的榜单。任何用户均可访问。
+     */
+    public function actionStanding2($id, $showStandingBeforeEnd = 1)
+    {
+        $this->layout = 'basic';
+        $model = $this->findModel($id);
+        // 访问权限检查
+        if ($model->status != Contest::STATUS_VISIBLE) {
+            return $this->render('/contest/forbidden', ['model' => $model]);
+        }
+        $rankResult = $model->getRankData(true);
+
+        if ($showStandingBeforeEnd) {
+            $rankResult = $model->getRankData(true);
+        } else {
+            $rankResult = $model->getRankData(true, time());
+        }
+        return $this->render('/contest/standing2', [
             'model' => $model,
             'rankResult' => $rankResult,
             'showStandingBeforeEnd' => $showStandingBeforeEnd

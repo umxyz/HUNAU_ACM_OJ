@@ -1091,7 +1091,7 @@ int main(int argc, char** argv)
 
     //get the limit
     problem = get_problem_info(problem_id);
-    problem.time_limit = 60;
+    problem.time_limit = 10;
     problem.memory_limit = 1024;
 
     if (!is_verify) {

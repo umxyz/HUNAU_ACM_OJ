@@ -361,23 +361,35 @@ class Contest extends \yii\db\ActiveRecord
     {
         $userSolutions = $this->getUsersSolution();
         $problems = $this->getProblems();
+        $isScoreboardFrozen = $this->isScoreboardFrozen();
+        $contestEndTime = strtotime($this->end_time);
+        if ($isScoreboardFrozen) {
+            $lockBoardTime = strtotime($this->lock_board_time);
+        }
         $res = [];
         foreach ($problems as $problem) {
             $res[$problem['problem_id']]['solved'] = 0;
             $res[$problem['problem_id']]['submit'] = 0;
         }
         foreach ($userSolutions as $solution) {
+            $createdAt = strtotime($solution['created_at']);
             $pid = $solution['problem_id'];
             // 初始化数据信息
-            if (!isset($res[$pid]['solved']))
+            if (!isset($res[$pid]['solved'])) {
                 $res[$pid]['solved'] = 0;
-            if (!isset($res[$pid]['submit']))
+            }
+            if (!isset($res[$pid]['submit'])) {
                 $res[$pid]['submit'] = 0;
-
+            }
+            $res[$pid]['submit']++;
+            // 不记录封榜后提交情况
+            if ($isScoreboardFrozen && $createdAt > $lockBoardTime &&
+                $createdAt < $contestEndTime) {
+                continue;
+            }
             if ($solution['result'] == Solution::OJ_AC) {
                 $res[$pid]['solved']++;
             }
-            $res[$pid]['submit']++;
         }
         return $res;
     }
@@ -574,10 +586,10 @@ class Contest extends \yii\db\ActiveRecord
             $result[$user['user_id']]['role'] = $user['role'];
             $result[$user['user_id']]['rating'] = $user['rating'];
             $result[$user['user_id']]['solved'] = 0;
-            $result[$user['user_id']]['total_score'] = 0; // 测评总分 total_score
+            $result[$user['user_id']]['total_score'] = 0; // 测评总分
             $result[$user['user_id']]['score'] = [];
             $result[$user['user_id']]['max_score'] = [];
-            $result[$user['user_id']]['correction_score'] = 0; //订正总分 correction_score
+            $result[$user['user_id']]['correction_score'] = 0; //订正总分
             $result[$user['user_id']]['student_number'] = $user['student_number'];
         }
 
@@ -652,7 +664,7 @@ class Contest extends \yii\db\ActiveRecord
 
         foreach ($result as &$v) {
             foreach ($v['score'] as $s) {
-                $v['total_score'] += $s;	// $s
+                $v['total_score'] += $s;
             }
             foreach ($v['max_score'] as $s) {
                 $v['correction_score'] += $s;
@@ -660,11 +672,11 @@ class Contest extends \yii\db\ActiveRecord
         }
 
         usort($result, function($a, $b) {
-            if ($a['correction_score'] != $b['correction_score']) { // 优先订正总分 correction_score
-                return $a['correction_score'] < $b['correction_score'];
-            }/* else { // 评测总分 total_score
+            if ($a['total_score'] != $b['total_score']) { // 优先测评总分
                 return $a['total_score'] < $b['total_score'];
-            }*/
+            } else { //订正总分
+                return $a['correction_score'] < $b['correction_score'];
+            }
         });
 
         return [

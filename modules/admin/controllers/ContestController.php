@@ -180,7 +180,7 @@ class ContestController extends Controller
 
         if ($generatorForm->load(Yii::$app->request->post())) {
             $generatorForm->contest_id = $model->id;
-            $generatorForm->prefix = 'user' . $model->id;
+            $generatorForm->prefix = 'c' . $model->id . 'user';
             $generatorForm->save();
             return $this->refresh();
         }
@@ -350,9 +350,9 @@ class ContestController extends Controller
             $query = (new Query())->select('s.id, u.username, u.nickname, s.result, s.created_at, p.num')
                 ->from('{{%solution}} as s')
                 ->leftJoin('{{%user}} as u', 'u.id=s.created_by')
-                ->leftJoin('{{%contest_problem}} as p', 'p.problem_id=s.problem_id')
+                ->leftJoin('{{%contest_problem}} as p', 'p.problem_id=s.problem_id AND p.contest_id=s.contest_id')
                 ->where(['s.contest_id' => $model->id])
-                ->distinct();
+                ->andWhere(['between', 's.created_at', $model->start_time, $model->end_time]);
             if ($model->scenario == Contest::SCENARIO_OFFLINE) {
                 $query->andWhere(['u.role' => User::ROLE_PLAYER]);
             }
@@ -427,7 +427,7 @@ class ContestController extends Controller
      * @param integer $active 该值等于 0 就什么也不做，等于 1 就将所有提交记录显示在前台的提交记录列表，等于 2 就隐藏提交记录
      * @return mixed
      */
-    public function actionStatus($id, $active = 0)
+    public function actionStatus($id, $active = 0, $autoRefresh = 0)
     {
         $this->layout = 'basic';
         $model = $this->findModel($id);
@@ -442,6 +442,7 @@ class ContestController extends Controller
         }
 
         return $this->render('status', [
+            'autoRefresh' => $autoRefresh,
             'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $searchModel->search(Yii::$app->request->queryParams, $model->id)

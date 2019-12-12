@@ -24,7 +24,7 @@ $this->title = Yii::$app->setting->get('ojName') . ' Online Judge';
             </a>
             <br>
             <br>
-            <font size=12 color=00A2E8>比赛报名二维码在右边</font>
+            <font size=12 color=00A2E8>2019“指尖风暴”程序设计大赛报名二维码在右边</font>
             <br>
         </div>
         <!-- <hr>-->
@@ -75,7 +75,7 @@ $this->title = Yii::$app->setting->get('ojName') . ' Online Judge';
             </section>
         </section>
     </div> -->
-        <iframe height="380" allowTransparency="true" scrolling="no" style="display:block;min-width:100%;width:80px;border:none;overflow:auto;" frameborder="0" src="http://hk.mikecrm.com/ydfb2sZ"></iframe>
+        <iframe height="380" allowTransparency="true" scrolling="no" style="display:block;min-width:100%;width:80px;border:none;overflow:auto;" frameborder="0" src="http://tc6udilajbg1b93u.mikecrm.com/T5xfEQu"></iframe>
         <?php if (!empty($contests)) : ?>
             <div class="sidebar-module">
                 <h3>最近比赛：</h3>

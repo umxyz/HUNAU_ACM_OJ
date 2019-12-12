@@ -83,13 +83,11 @@ class Solution extends ActiveRecord
     public function rules()
     {
         return [
-            [[
-                'problem_id', 'created_by', 'time', 'memory', 'result', 'language', 'contest_id', 'status',
-                'code_length', 'score'
-            ], 'integer'],
+            [['problem_id', 'created_by', 'time', 'memory', 'result', 'language', 'contest_id', 'status',
+              'code_length', 'score'], 'integer'],
             [['created_at', 'judgetime'], 'safe'],
             [['language', 'source'], 'required'],
-            [['language'], 'in', 'range' => [0, 1/*, 2, 3*/], 'message' => 'Please select a language'],
+            [['language'], 'in', 'range' => [0, 1, 2, 3], 'message' => 'Please select a language'],
             [['source', 'pass_info'], 'string'],
             [['judge'], 'string', 'max' => 16],
         ];
@@ -158,12 +156,12 @@ class Solution extends ActiveRecord
 
     public function getTestCount()
     {
-        return intval(substr(strstr($this->pass_info, '/'), 1));
+        return intval(substr(strstr($this->pass_info,'/'), 1));
     }
 
     public function getPassedTestCount()
     {
-        return intval(strstr($this->pass_info, '/', true));
+        return intval(strstr($this->pass_info,'/', true));
     }
 
     public function getLang()
@@ -175,12 +173,12 @@ class Solution extends ActiveRecord
             case Solution::CPPLANG:
                 $res = 'C++';
                 break;
-                // case Solution::JAVALANG:
-                //     $res = 'Java';
-                //     break;
-                // case Solution::PYLANG:
-                //     $res = 'Python3';
-                //     break;
+            case Solution::JAVALANG:
+                $res = 'Java';
+                break;
+            case Solution::PYLANG:
+                $res = 'Python3';
+                break;
             default:
                 $res = 'not set';
                 break;
@@ -202,12 +200,12 @@ class Solution extends ActiveRecord
             case Solution::CPPLANG:
                 $res = 'cpp';
                 break;
-                // case Solution::JAVALANG:
-                //     $res = 'java';
-                //     break;
-                // case Solution::PYLANG:
-                //     $res = 'py';
-                //     break;
+            case Solution::JAVALANG:
+                $res = 'java';
+                break;
+            case Solution::PYLANG:
+                $res = 'py';
+                break;
             default:
                 $res = 'txt';
                 break;
@@ -277,9 +275,9 @@ class Solution extends ActiveRecord
         $arr = [
             '' => 'All',
             '0' => 'C',
-            '1' => 'C++'/*,
+            '1' => 'C++',
             '2' => 'Java',
-            '3' => 'Python3'*/
+            '3' => 'Python3'
         ];
         return $status === '' ? $arr : $arr[$status];
     }
@@ -448,23 +446,10 @@ class Solution extends ActiveRecord
                 return true;
             }
 
-			// 对于比赛中的提交，普通用户能查看自己的 Compile Error 所记录的信息
+            // 对于比赛中的提交，普通用户能查看自己的 Compile Error 所记录的信息
             if ($this->created_by == Yii::$app->user->id && $this->result == self::OJ_CE) {
                 return true;
             }
-<<<<<<< HEAD
-
-            // 对于比赛模式为 IOI 中的提交，普通用户能查看自己的 Wrong Answer 所记录的信息
-            // if ($contest['type'] == Contest::TYPE_IOI && $this->created_by == Yii::$app->user->id && $this->result == self::OJ_WA) {
-            //     return true;
-            // }
-=======
-			
-            // 对于比赛模式为 IOI 中的提交，普通用户能查看自己的 Wrong Answer 所记录的信息
-            if ($contest['type'] == Contest::TYPE_IOI && $this->created_by == Yii::$app->user->id && $this->result == self::OJ_WA) {
-                return true;
-            }
->>>>>>> 661e3673f0018d69c4624923abe61974cb96011b
         }
         //　非比赛中的提交，普通用户也能查看自己的出错信息
         if ($this->status == Solution::STATUS_VISIBLE && $this->created_by == Yii::$app->user->id) {
