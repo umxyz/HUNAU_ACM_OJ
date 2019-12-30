@@ -6,44 +6,34 @@ use yii\helpers\Html;
 /* @var $contests array */
 /* @var $news app\models\Discuss */
 
-$this->title = Yii::$app->setting->get('ojName') . ' Online Judge';
+$this->title = Yii::$app->setting->get('ojName');
 ?>
 <div class="row blog">
     <div class="col-md-8">
-        <div class="">
-            <!-- jumbotron -->
-            <!--  <h1>Hello world!</h1>
-            <p>欢迎来到<?= Yii::$app->setting->get('schoolName') ?>在线判题系统——<?= Yii::$app->setting->get('ojName') ?> Online Judge</p>
-		-->
-            <!-- <font color = FF5757 size = 16 >欢迎来到湖南农业大学</font>
-	    <br>
-	    <font color = FF5233 size = 16 >ACM实验室在线评测系统</font>
-		-->
-            <a href="https://mp.weixin.qq.com/s/6dwgJfaiZD8lqbTz-4-_PQ" title="ACM实验室迎新介绍" target="_blank">
-                <font size=12 color=FF5233>点击查看ACM实验室宣传网页</font>
-            </a>
-            <br>
-            <br>
-            <font size=12 color=00A2E8>2019“指尖风暴”程序设计大赛报名二维码在右边</font>
-            <br>
+        <div class="jumbotron">
+            <h1>Hello  world!</h1>
+            <h2>欢迎来到<?= Yii::$app->setting->get('schoolName') ?>在线判题系统  <?= Yii::$app->setting->get('ojName') ?> Online Judge</h2>
         </div>
-        <!-- <hr>-->
+        <hr>
         <div class="blog-main">
-            <?php foreach ($news as $v) : ?>
+            <?php foreach ($news as $v): ?>
                 <div class="blog-post">
                     <h2 class="blog-post-title"><?= Html::a(Html::encode($v['title']), ['/site/news', 'id' => $v['id']]) ?></h2>
                     <p class="blog-post-meta">
                         <span class="glyphicon glyphicon-time"></span> <?= Yii::$app->formatter->asDate($v['created_at']) ?></p>
                 </div>
             <?php endforeach; ?>
+            <?= \yii\widgets\LinkPager::widget([
+                'pagination' => $pages,
+            ]); ?>
         </div>
     </div>
     <div class="col-md-4">
         <!-- <div class="sidebar-module sidebar-module-inset">
-            <h4>关于</h4> -->
-        <!-- <p>Online Judge系统（简称OJ）是一个在线的判题系统。 用户可以在线提交程序多种程序的源代码，系统对源代码进行编译和执行， 并通过预先设计的测试数据来检验程序源代码的正确性。</p>
-		-->
-        <!-- <section class="我好难" data-tools="太难了" data-id="95886">
+            <h4>关于</h4>
+            <p>Online Judge系统（简称OJ）是一个在线的判题系统。 用户可以在线提交程序多种程序（如C、C++、Java）源代码，系统对源代码进行编译和执行， 并通过预先设计的测试数据来检验程序源代码的正确性。</p>
+        </div> -->
+        <section class="我好难" data-tools="太难了" data-id="95886">
             <section style="text-align:center;">
                 <section style="display:inline-block;">
                     <section style="text-align:center;">
@@ -74,25 +64,23 @@ $this->title = Yii::$app->setting->get('ojName') . ' Online Judge';
                 </section>
             </section>
         </section>
-    </div> -->
-        <iframe height="380" allowTransparency="true" scrolling="no" style="display:block;min-width:100%;width:80px;border:none;overflow:auto;" frameborder="0" src="http://tc6udilajbg1b93u.mikecrm.com/T5xfEQu"></iframe>
-        <?php if (!empty($contests)) : ?>
-            <div class="sidebar-module">
-                <h3>最近比赛：</h3>
-                <ol class="list-unstyled">
-                    <?php foreach ($contests as $contest) : ?>
-                        <li>
-                            <?= Html::a(Html::encode($contest['title']), ['/contest/view', 'id' => $contest['id']]) ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ol>
-            </div>
+        <?php if (!empty($contests)): ?>
+        <div class="sidebar-module">
+            <h4>最近比赛</h4>
+            <ol class="list-unstyled">
+                <?php foreach ($contests as $contest): ?>
+                <li>
+                    <?= Html::a(Html::encode($contest['title']), ['/contest/view', 'id' => $contest['id']]) ?>
+                </li>
+                <?php endforeach; ?>
+            </ol>
+        </div>
         <?php endif; ?>
-        <?php if (!empty($discusses)) : ?>
+        <?php if (!empty($discusses)): ?>
             <div class="sidebar-module">
-                <h3>最近讨论</h3>
+                <h4>最近讨论</h4>
                 <ol class="list-unstyled">
-                    <?php foreach ($discusses as $discuss) : ?>
+                    <?php foreach ($discusses as $discuss): ?>
                         <li class="index-discuss-item">
                             <div>
                                 <?= Html::a(Html::encode($discuss['title']), ['/discuss/view', 'id' => $discuss['id']]) ?>

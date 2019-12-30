@@ -12,13 +12,13 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Rating');
 ?>
-<!--
-    <p style="text-align: center">
+<p style="text-align: center">
     ★<?= Html::a('题数排行', ['problem']) ?>
-    &nbsp;&bull;&nbsp;*/
+    <!--
+    &nbsp;&bull;&nbsp;
     <?= Html::a('段位排行', ['index']) ?>
+    -->
 </p>
--->
 <div class="rating-index">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -63,8 +63,8 @@ $this->title = Yii::t('app', 'Rating');
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>用户名</th>
-                            <th>题目数</th>
+                            <th>Who</th>
+                            <th>Solved</th>
                         </tr>
                     </thead>
                     <tbody>

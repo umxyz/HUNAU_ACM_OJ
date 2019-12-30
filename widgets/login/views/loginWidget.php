@@ -39,7 +39,7 @@ $this->registerCss('
         ?>
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-           <!-- <?= Html::a(Yii::t('app', 'Signup'), ['/site/signup']) ?> -->
+            <!-- <?= Html::a(Yii::t('app', 'Signup'), ['/site/signup']) ?> -->
         </div>
     <?php ActiveForm::end(); ?>
   </div>

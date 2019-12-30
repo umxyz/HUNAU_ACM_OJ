@@ -473,7 +473,7 @@ class Contest extends \yii\db\ActiveRecord
 
             // AC 时间
             if (!isset($result[$user]['ac_time'][$pid]))
-                $result[$user]['ac_time'][$pid] = 0;
+                $result[$user]['ac_time'][$pid] = -1;
             // 没 AC 的次数（不含 CE 编译出错 次数）
             if (!isset($result[$user]['wa_count'][$pid]))
                 $result[$user]['wa_count'][$pid] = 0;
@@ -488,7 +488,7 @@ class Contest extends \yii\db\ActiveRecord
                 $first_blood[$pid] = '';
 
             // 已经 Accepted
-            if ($result[$user]['ac_time'][$pid] > 0) {
+            if ($result[$user]['ac_time'][$pid] >= 0) {
                 continue;
             }
 
@@ -520,7 +520,12 @@ class Contest extends \yii\db\ActiveRecord
                     $result[$user]['ac_time'][$pid] = $score;
                     $result[$user]['time'] += $score;
                 } else {
-                    $result[$user]['ac_time'][$pid] = $sec / 60;
+                    // 记录解答时间
+                    if ($created_at < $contest_end_time) {
+                        $result[$user]['ac_time'][$pid] = $sec / 60;
+                    } else {
+                        $result[$user]['ac_time'][$pid] = 0;
+                    }
                     $result[$user]['time'] += $sec + $result[$user]['wa_count'][$pid] * 60 * 20;
                 }
             } else if ($row['result'] <= 3) {
@@ -572,7 +577,7 @@ class Contest extends \yii\db\ActiveRecord
         $first_blood = [];
         $submit_count = [];
         $count = count($users_solution_data);
-        $start_time = $this->start_time;
+        $start_time = strtotime($this->start_time);
         $lock_time = 0x7fffffff;
         $contest_end_time = strtotime($this->end_time);
         if ($endtime == null) {
@@ -587,10 +592,11 @@ class Contest extends \yii\db\ActiveRecord
             $result[$user['user_id']]['rating'] = $user['rating'];
             $result[$user['user_id']]['solved'] = 0;
             $result[$user['user_id']]['total_score'] = 0; // 测评总分
-            $result[$user['user_id']]['score'] = [];
-            $result[$user['user_id']]['max_score'] = [];
+            $result[$user['user_id']]['score'] = []; // 记录每道题最后一次得分（OI专属）
+            $result[$user['user_id']]['max_score'] = []; // 记录每道题最大得分
             $result[$user['user_id']]['correction_score'] = 0; //订正总分
             $result[$user['user_id']]['student_number'] = $user['student_number'];
+            $result[$user['user_id']]['total_time'] = 0; // 记录 AC 的题目的总时间
         }
 
         foreach ($problems as $problem) {
@@ -598,16 +604,16 @@ class Contest extends \yii\db\ActiveRecord
         }
 
         if (!empty($this->lock_board_time)) {
-            $lock_time = $this->lock_board_time;
+            $lock_time = strtotime($this->lock_board_time);
         }
 
         for ($i = 0; $i < $count; $i++) {
             $row = $users_solution_data[$i];
             $user = $row['user_id'];
             $pid = $row['problem_id'];
-            $created_at = $row['created_at'];
+            $created_at = strtotime($row['created_at']);
             $score = $row['score'];
-            if (strtotime($created_at) > $endtime) {
+            if ($created_at > $endtime) {
                 break;
             }
             if (!isset($problem_ids[$pid])) {
@@ -624,10 +630,25 @@ class Contest extends \yii\db\ActiveRecord
             if (!isset($result[$user]['max_score'][$pid]))
                 $result[$user]['max_score'][$pid] = 0;
 
-            if (strtotime($created_at) <= $contest_end_time) {
+            // 针对 OI 榜单，需要记录最后一次提交的分数
+            if ($created_at <= $contest_end_time) {
                 $result[$user]['score'][$pid] = $score;
             }
-            $result[$user]['max_score'][$pid] = max($score, $result[$user]['max_score'][$pid]);
+            // 已经 AC
+            if (isset($result[$user]['solved_flag'][$pid])) {
+                continue;
+            }
+            // 记录提交时间。仅记录比赛期间的提交时间。
+            if (!isset($result[$user]['submit_time'][$pid]) && $created_at < $contest_end_time) {
+                $result[$user]['submit_time'][$pid] = ($created_at - $start_time) / 60;
+            }
+            // 记录最大分数
+            if ($result[$user]['max_score'][$pid] < $score) {
+                $result[$user]['max_score'][$pid] = $score;
+                if ($created_at < $contest_end_time) {
+                    $result[$user]['submit_time'][$pid] = ($created_at - $start_time) / 60;
+                }
+            }
 
             // 正在测评
             if (!isset($result[$user]['pending'][$pid]))
@@ -637,7 +658,7 @@ class Contest extends \yii\db\ActiveRecord
                 $first_blood[$pid] = '';
 
             // 封榜，比赛结束后的一定时间解榜，解榜时间 scoreboardFrozenTime 变量的设置详见后台设置页面
-            if ($lock && strtotime($lock_time) <= strtotime($created_at) &&
+            if ($lock && $lock_time <= $created_at &&
                 time() <= $contest_end_time + Yii::$app->setting->get('scoreboardFrozenTime')) {
                 ++$result[$user]['pending'][$pid];
                 continue;
@@ -647,12 +668,11 @@ class Contest extends \yii\db\ActiveRecord
                 // AC
                 $submit_count[$pid]['solved']++;
                 $result[$user]['pending'][$pid] = 0;
-                $result[$user]['solved']++;
-                $sec = strtotime($created_at) - strtotime($start_time);
-                // AC 时间
-                if (!isset($result[$user]['ac_time'][$pid]))
-                    $result[$user]['ac_time'][$pid] = $sec / 60;
-
+                $result[$user]['solved_flag'][$pid] = 1; // 标记该题已解答
+                $result[$user]['solved']++; // 解题数目
+                if ($created_at < $contest_end_time) {
+                    $result[$user]['total_time'] += ($created_at - $start_time) / 60;
+                }
                 if (empty($first_blood[$pid])) {
                     $first_blood[$pid] = $user;
                 }
@@ -671,11 +691,24 @@ class Contest extends \yii\db\ActiveRecord
             }
         }
 
-        usort($result, function($a, $b) {
-            if ($a['total_score'] != $b['total_score']) { // 优先测评总分
-                return $a['total_score'] < $b['total_score'];
-            } else { //订正总分
-                return $a['correction_score'] < $b['correction_score'];
+        $type = $this->type;
+        usort($result, function($a, $b) use ($type) {
+            if ($type == self::TYPE_OI) {
+                if ($a['total_score'] != $b['total_score']) { // 优先测评总分
+                    return $a['total_score'] < $b['total_score'];
+                } else if ($a['correction_score'] != $b['correction_score']) { //订正总分
+                    return $a['correction_score'] < $b['correction_score'];
+                } else {
+                    return $a['total_time'] > $b['total_time'];
+                }
+            } else { // IOI 只需要最大值的总分排序。
+                if ($a['solved'] != $b['solved']) { //优先解题数
+                    return $a['solved'] < $b['solved'];
+                } else if ($a['correction_score'] != $b['correction_score']) {
+                    return $a['correction_score'] < $b['correction_score'];
+                } else {
+                    return $a['total_time'] > $b['total_time'];
+                }
             }
         });
 

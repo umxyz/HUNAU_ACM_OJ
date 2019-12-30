@@ -418,23 +418,27 @@ int compile(int lang, char * work_dir)
     pid_t pid = fork();
     if (pid == 0) {
         struct rlimit LIM;
-        LIM.rlim_max = 6;
-        LIM.rlim_cur = 6;
+        int cpu = 20;
+        if (lang == LANG_JAVA) {
+            cpu = 30;
+        }
+        LIM.rlim_max = cpu;
+        LIM.rlim_cur = cpu;
         setrlimit(RLIMIT_CPU, &LIM);
-        alarm(6);
-        LIM.rlim_max = 40 * STD_MB;
-        LIM.rlim_cur = 40 * STD_MB;
+        alarm(cpu);
+        LIM.rlim_max = 100 * STD_MB;
+        LIM.rlim_cur = 100 * STD_MB;
         setrlimit(RLIMIT_FSIZE, &LIM);
 
-        if (lang == LANG_JAVA) {
+        if (lang != LANG_JAVA) {
             LIM.rlim_max = STD_MB << 11;
-            LIM.rlim_cur = STD_MB << 11;    
-        } else {
-            LIM.rlim_max = STD_MB * 512;
-            LIM.rlim_cur = STD_MB * 512;
+            LIM.rlim_cur = STD_MB << 11;
+            setrlimit(RLIMIT_AS, &LIM);
         }
-        setrlimit(RLIMIT_AS, &LIM);
+        
         freopen("ce.txt", "w", stderr);
+        execute_cmd("/bin/chown judge %s ", work_dir);
+        execute_cmd("/bin/chmod 700 %s ", work_dir);
 
         if (compile_chroot && lang != LANG_JAVA && lang != LANG_PYTHON3) {
             execute_cmd("mkdir -p bin usr lib lib64 etc/alternatives proc tmp dev");
@@ -560,7 +564,8 @@ struct problem_struct get_problem_info(int p_id)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(sql,
-            "SELECT spj, spj_source, spj_lang, solution_lang, solution_source FROM polygon_problem WHERE id=%d",
+            "SELECT spj, spj_source, spj_lang, solution_lang, solution_source, "
+            "time_limit, memory_limit FROM polygon_problem WHERE id=%d",
             p_id);
     mysql_real_query(conn, sql, strlen(sql));
     res = mysql_store_result(conn);
@@ -573,6 +578,8 @@ struct problem_struct get_problem_info(int p_id)
     if (!is_verify) {
         _create_solution_file(row[4], problem.solution_lang);
     }
+    problem.time_limit = atoi(row[5]);
+    problem.memory_limit = atoi(row[6]);
     if (res != NULL) {
         mysql_free_result(res); // free the memory
         res = NULL;
@@ -1020,10 +1027,16 @@ void init_parameters(int argc, char ** argv, int * solution_id, int * runner_id)
     }
     DEBUG = argc > 4;
 
-    getcwd(oj_home, sizeof(oj_home));
-    int len = strlen(oj_home);
-    oj_home[len] = '/';
-    oj_home[len + 1] = '\0';
+    int cnt = readlink("/proc/self/exe", oj_home, BUFFER_SIZE);
+    if (cnt < 0 || cnt >= BUFFER_SIZE) {
+        printf("Get work dir error\n");
+        exit(1);
+    }
+    while (oj_home[cnt] != '/' && cnt > 0) {
+        cnt--;
+    }
+    oj_home[++cnt] = '\0';
+    chdir(oj_home); // change the dir
 
     chdir(oj_home); // change the dir
 
@@ -1089,10 +1102,8 @@ int main(int argc, char** argv)
     chdir(work_dir);
     get_solution_info(solution_id, &problem_id, &lang);
 
-    //get the limit
+    //get the problem info
     problem = get_problem_info(problem_id);
-    problem.time_limit = 10;
-    problem.memory_limit = 1024;
 
     if (!is_verify) {
         lang = problem.solution_lang;

@@ -1,19 +1,17 @@
 <p align="center">
-    <a href="http://10.100.128.226/" target="_blank">
+    <a href="https://www.jnoj.org" target="_blank">
         <img src="docs/favicon.ico" height="100px">
     </a>
-    <h1 align="center">湖南农大ACM Online Judge</h1>
+    <h1 align="center">Jiangnan Online Judge</h1>
     <br>
 </p>
 
-湖南农大ACM Online Judge），是一个在线的判题系统。
+江南在线评测系统（Jiangnan Online Judge），是一个在线的判题系统。
 用户可以在线提交程序多种程序（如C、C++、Java）源代码，系统对源代码进行编译和执行，并通过预先设计的测试数据来检验程序源代码的正确性。
 
 在线体验
 ---------
-农大校园网访问
-
-[OJ Demo](http://10.100.128.226)
+[JNOJ Demo](https://demo.jnoj.org)
 
 功能特性
 ----------
@@ -26,8 +24,8 @@
 - [x] 线上线下赛场景 - 为线下举办的比赛增加限制：如限制参加比赛的账户，参加比赛的账户不能自己修改个人信息
 - [x] 线下赛打印功能 - 为线下赛提供打印代码的功能
 - [x] 题目打印功能 - 创建比赛后，可以将题目信息一键导出为 PDF，以供打印。
+- [x] 下载比赛的提交 - 可用于查重
 - [x] 公告弹窗提示 - 在比赛过程中，发布公告时可以给所有在线用户发布弹窗提示有新公告
-- [x] 作业 - 可以用于教学练习
 - [x] 记录出错数据 - 可以查看提交方案的出错数据
 - [x] 新闻门户首页 - 首页显示新闻，各种公告等
 - [x] 支持多语言 - 现支持 C、C++、Java、Python3
@@ -41,28 +39,28 @@
 - [x] 排行榜 - 对用户解题数量等进行排行
 - [x] 积分榜 - 对参加比赛的用户进行积分结算，并进行排名
 
-开发计划
---------
-
-以下列举了一些今后版本可能会添加的功能，如果你有新的功能需求，可以提 issues。
-
-- [ ] Polygon 权限管理 - 题目创建人、验题人权限
-- [ ] 删除某道题的提交记录 - 可用于在比赛后发现某道题不合理，删除该题的提交记录
-- [ ] 代码查重
-
 帮助文档
 --------
 
 1. [安装教程](docs/install.md)
 2. [更新教程](docs/update.md)
-3. [Wiki](docs/wiki.md)
+3. [https://github.com/shi-yang/jnoj/wiki](https://github.com/shi-yang/jnoj/wiki)
 
 
 开发者支持
 ---------
+Issues: [https://github.com/shi-yang/jnoj/issues](https://github.com/shi-yang/jnoj/issues)
+
+Wiki: [https://github.com/shi-yang/jnoj/wiki](https://github.com/shi-yang/jnoj/wiki)
+
 QQ、微信：
 
-<img src="docs/images/contact.JPG" alt="QQ &amp; Wechat" style="zoom:25%;" />
+![QQ & Wechat](docs/images/contact.png)
+
+参与贡献
+--------
+
+[https://www.jnoj.org/contribute.html](https://www.jnoj.org/contribute.html)
 
 目录结构
 ----------

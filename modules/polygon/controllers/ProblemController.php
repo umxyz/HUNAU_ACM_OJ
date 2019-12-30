@@ -14,7 +14,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;    // 权限控制
+use yii\filters\AccessControl;
 use app\components\AccessRule;    // 权限控制
 use yii\web\ForbiddenHttpException;
 
@@ -54,6 +54,7 @@ class ProblemController extends Controller
             ],
         ];
     }
+
     /**
      * Lists all Problem models.
      * @return mixed
@@ -63,11 +64,13 @@ class ProblemController extends Controller
         $this->layout = '/main';
         $searchModel = new ProblemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel
         ]);
     }
+
     /**
      * 显示某个解决方案的详细信息
      * @param $id
@@ -80,11 +83,13 @@ class ProblemController extends Controller
         if ($status === null) {
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
+
         return $this->render('detail', [
             'model' => $model,
             'status' => $status
         ]);
     }
+
     /**
      * 题解
      * @param integer $id
@@ -102,6 +107,7 @@ class ProblemController extends Controller
             'model' => $model,
         ]);
     }
+
     /**
      * Displays a single Problem model.
      * @param integer $id
@@ -116,6 +122,7 @@ class ProblemController extends Controller
             'model' => $model,
         ]);
     }
+
     public function actionRun($id)
     {
         $model = $this->findModel($id);
@@ -123,11 +130,8 @@ class ProblemController extends Controller
             Yii::$app->session->setFlash('error', '请提供解决方案');
             return $this->redirect(['tests', 'id' => $id]);
         }
-        Yii::$app->db->createCommand()->delete(
-            '{{%polygon_status}}',
-            'problem_id=:pid AND source IS NULL',
-            [':pid' => $model->id]
-        )->execute();
+        Yii::$app->db->createCommand()->delete('{{%polygon_status}}',
+            'problem_id=:pid AND source IS NULL', [':pid' => $model->id])->execute();
         Yii::$app->db->createCommand()->insert('{{%polygon_status}}', [
             'problem_id' => $model->id,
             'created_at' => new Expression('NOW()'),
@@ -135,6 +139,7 @@ class ProblemController extends Controller
         ])->execute();
         return $this->redirect(['tests', 'id' => $id]);
     }
+
     /**
      * Displays a single Problem model.
      * @param integer $id
@@ -144,6 +149,7 @@ class ProblemController extends Controller
     public function actionSpj($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post())) {
             $model->spj_lang = Solution::CPPLANG;
             $model->save();
@@ -151,7 +157,7 @@ class ProblemController extends Controller
             if (!is_dir($dataPath)) {
                 @mkdir($dataPath);
             }
-            $fp = fopen($dataPath . '/spj.cc', "w");
+            $fp = fopen($dataPath . '/spj.cc',"w");
             fputs($fp, $model->spj_source);
             fclose($fp);
             exec("g++ -fno-asm -std=c++11 -O2 {$dataPath}/spj.cc -o {$dataPath}/spj -I" . Yii::getAlias('@app/libraries'));
@@ -161,6 +167,7 @@ class ProblemController extends Controller
             'model' => $model,
         ]);
     }
+
     /**
      * Displays a single Problem model.
      * @param integer $id
@@ -180,6 +187,7 @@ class ProblemController extends Controller
             'model' => $model,
         ]);
     }
+
     /**
      * 验题页面
      * @param integer $id
@@ -195,6 +203,7 @@ class ProblemController extends Controller
                 'pageSize' => 10
             ]
         ]);
+
         if ($solution->load(Yii::$app->request->post())) {
             $solution->problem_id = $id;
             $solution->created_by = Yii::$app->user->id;
@@ -208,6 +217,7 @@ class ProblemController extends Controller
             'dataProvider' => $dataProvider
         ]);
     }
+
     public function actionTests($id)
     {
         $model = $this->findModel($id);
@@ -220,7 +230,7 @@ class ProblemController extends Controller
                 throw new BadRequestHttpException($ext);
             }
             $inputFile = file_get_contents($_FILES["file"]["tmp_name"]);
-            file_put_contents($_FILES["file"]["tmp_name"], preg_replace("(\r\n)", "\n", $inputFile));
+            file_put_contents($_FILES["file"]["tmp_name"], preg_replace("(\r\n)","\n", $inputFile));
             @move_uploaded_file($_FILES["file"]["tmp_name"], Yii::$app->params['polygonProblemDataPath'] . $model->id . '/' . $_FILES["file"]["name"]);
         }
         return $this->render('tests', [
@@ -228,6 +238,8 @@ class ProblemController extends Controller
             'solutionStatus' => $solutionStatus
         ]);
     }
+
+
     /**
      * 下载测试数据
      */
@@ -251,11 +263,10 @@ class ProblemController extends Controller
         if (!file_exists($zipName)) {
             return false;
         }
-        Yii::$app->response->on(\yii\web\Response::EVENT_AFTER_SEND, function ($event) {
-            unlink($event->data);
-        }, $zipName);
+        Yii::$app->response->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) { unlink($event->data); }, $zipName);
         return Yii::$app->response->sendFile($zipName, $model->id . '-' . $model->title . '.zip');
     }
+
     public function actionDeletefile($id, $name)
     {
         $model = $this->findModel($id);
@@ -282,6 +293,7 @@ class ProblemController extends Controller
         }
         return $this->redirect(['tests', 'id' => $model->id]);
     }
+
     public function actionViewfile($id, $name)
     {
         $model = $this->findModel($id);
@@ -299,6 +311,7 @@ class ProblemController extends Controller
         }
         die;
     }
+
     /**
      * Creates a new Problem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -308,14 +321,17 @@ class ProblemController extends Controller
     {
         $this->layout = '/main';
         $model = new Problem();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             @mkdir(Yii::$app->params['polygonProblemDataPath'] . $model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         }
+
         return $this->render('create', [
             'model' => $model,
         ]);
     }
+
     /**
      * Updates an existing Problem model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -326,6 +342,7 @@ class ProblemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post())) {
             $sample_input = [$model->sample_input, $model->sample_input_2, $model->sample_input_3];
             $sample_output = [$model->sample_output, $model->sample_output_2, $model->sample_output_3];
@@ -334,16 +351,21 @@ class ProblemController extends Controller
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
+
         $model->setSamples();
+
         return $this->render('update', [
             'model' => $model,
         ]);
     }
+
     public function actionSubtask($id)
     {
         $model = $this->findModel($id);
+
         $dataPath = Yii::$app->params['polygonProblemDataPath'] . $model->id;
         $subtaskContent = '';
+
         if (file_exists($dataPath . '/config')) {
             $subtaskContent = file_get_contents($dataPath . '/config');
         }
@@ -352,7 +374,7 @@ class ProblemController extends Controller
             if (!is_dir($dataPath)) {
                 mkdir($dataPath);
             }
-            $fp = fopen($dataPath . '/config', "w");
+            $fp = fopen($dataPath . '/config',"w");
             fputs($fp, $spjContent);
             fclose($fp);
         }
@@ -361,6 +383,7 @@ class ProblemController extends Controller
             'subtaskContent' => $subtaskContent
         ]);
     }
+
     /**
      * Deletes an existing Problem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -371,8 +394,10 @@ class ProblemController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
+
     /**
      * Finds the Problem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -384,15 +409,14 @@ class ProblemController extends Controller
     protected function findModel($id)
     {
         if (($model = Problem::findOne($id)) !== null) {
-            if (
-                Yii::$app->user->id === $model->created_by ||
-                Yii::$app->user->identity->role === User::ROLE_ADMIN
-            ) {
+            if (Yii::$app->user->id === $model->created_by ||
+                Yii::$app->user->identity->role === User::ROLE_ADMIN) {
                 return $model;
             } else {
                 throw new ForbiddenHttpException('You are not allowed to perform this action.');
             }
         }
+
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

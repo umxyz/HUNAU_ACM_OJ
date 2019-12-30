@@ -18,13 +18,13 @@ $this->title = Yii::t('app', 'Groups');
         [
             'label' => Yii::t('app', 'Explore'),
             'url' => ['group/index']
-        ]/*,
+        ],
         [
             'label' => Yii::t('app', 'Create'),
             'url' => 'create',
             'visible' => !Yii::$app->user->isGuest,
             'options' => ['class' => 'pull-right']
-        ]*/
+        ]
     ],
     'options' => ['class' => 'nav-tabs', 'style' => 'margin-bottom: 15px']
 ]) ?>

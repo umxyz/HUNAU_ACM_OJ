@@ -15,7 +15,7 @@ use app\models\Contest;
 
 AppAsset::register($this);
 
-$this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js', ['depends' => 'yii\web\JqueryAsset']);
+$this->registerJsFile('/js/jquery.countdown.min.js', ['depends' => 'yii\web\JqueryAsset']);
 $model = $this->params['model'];
 $status = $model->getRunStatus();
 ?>
@@ -61,7 +61,7 @@ $status = $model->getRunStatus();
         $menuItems[] = ['label' => Yii::t('app', 'Contest'), 'url' => ['/contest/index']];
     }
     if (Yii::$app->user->isGuest) {
-       // $menuItems[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
         $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
     } else {
         if (Yii::$app->user->identity->role == \app\models\User::ROLE_ADMIN) {
@@ -167,12 +167,12 @@ $status = $model->getRunStatus();
                         'url' => ['contest/clarify', 'id' => $model->id],
                     ],
                 ];
-               /* if ($model->scenario == $model::SCENARIO_OFFLINE && $model->getRunStatus() == $model::STATUS_RUNNING) {
+                if ($model->scenario == $model::SCENARIO_OFFLINE && $model->getRunStatus() == $model::STATUS_RUNNING) {
                     $menuItems[] = [
                         'label' => '<span class="glyphicon glyphicon-print"></span> 打印服务',
                         'url' => ['/contest/print', 'id' => $model->id]
                     ];
-                } */
+                }
                 if ($model->isContestEnd()) {
                     $menuItems[] = [
                         'label' => '<span class="glyphicon glyphicon-info-sign"></span> ' . Yii::t('app', 'Editorial'),
