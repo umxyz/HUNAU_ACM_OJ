@@ -1,7 +1,7 @@
 html,
 body {
     height: 100%;
-    background-color: #e7e7e7
+    background-color: #fff // e7e7e7
 }
 pre {
     border-radius: unset;
@@ -56,7 +56,7 @@ pre {
     line-height: 55px;
 }
 #header {
-    background-color: #006179;
+    background-color: #373A3C;  // 006179
     margin-bottom: 0;
     border: medium none;
 }

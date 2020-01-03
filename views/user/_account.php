@@ -20,11 +20,9 @@ if ($model->isVerifyEmail()) {
 
 <?php $form = ActiveForm::begin(); ?>
 
-<?= $form->field($model, 'username')->textInput() ?>
+<?= $form->field($model, 'username')->textInput(['disabled' => true]) ?>
 
-<?= $form->field($model, 'email', [
-        'template' => $emailTemplate
-])->textInput() ?>
+<?= $form->field($model, 'email', ['template' => $emailTemplate])->textInput() ?>
 
 <div class="form-group">
     <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
