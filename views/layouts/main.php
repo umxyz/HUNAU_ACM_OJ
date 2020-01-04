@@ -60,7 +60,8 @@ AppAsset::register($this);
         ]);
         if (Yii::$app->user->isGuest) {
             // $menuItems[] = ['label' => '<span class="glyphicon glyphicon-new-window"></span> ' . Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
-            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> ' . Yii::t('app', 'Login'), 'url' => ['/site/login']];
+            // $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> ' . Yii::t('app', 'Login'), 'url' => ['/site/login']];
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> ' . Yii::t('app', '入口'), 'url' => ['/site/login']];
         } else {
             if (Yii::$app->user->identity->isAdmin() || (Yii::$app->setting->get('mustVerifyEmail') && Yii::$app->user->identity->isVerifyEmail())) {
                 $menuItems = [
