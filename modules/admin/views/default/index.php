@@ -77,8 +77,8 @@ function __($message)
             <td colspan="3">
                 <?= $cpuinfo['model']; ?>
                 | <?php __('Frequency'); ?>: <?= $cpuinfo['frequency']; ?> MHz
-                | <?php __('L2 Cache'); ?>：<?= $cpuinfo['l2cache']; ?>
-                | Bogomips: <?= $cpuinfo['bogomips']; ?> ×<?= $cpuinfo['num']; ?>
+                <!-- | <?php __('L2 Cache'); ?>：<?= $cpuinfo['l2cache']; ?>
+                | Bogomips: <?= $cpuinfo['bogomips']; ?> ×<?= $cpuinfo['num']; ?> -->
             </td>
         </tr>
         <tr>
@@ -103,11 +103,9 @@ function __($message)
                 <span id="stat_softirq">0.0</span> softirq,
                 <span id="stat_steal">0.0</span> steal
                 <div class="progress">
-                    <div id="stat_UserBar" class="progress-bar progress-bar-success" role="progressbar"
-                         style="width:1px">&nbsp;
+                    <div id="stat_UserBar" class="progress-bar progress-bar-success" role="progressbar" style="width:1px">&nbsp;
                     </div>
-                    <div id="stat_SystemBar" class="progress-bar progress-bar-warning" role="progressbar"
-                         style="width:0px">&nbsp;
+                    <div id="stat_SystemBar" class="progress-bar progress-bar-warning" role="progressbar" style="width:0px">&nbsp;
                     </div>
                 </div>
             </td>
@@ -115,34 +113,24 @@ function __($message)
         <tr>
             <td><?php __('Memory Usage'); ?></td>
             <td colspan="3">
-                <?php __('Physical Memory'); ?> <span id="meminfo_Total"
-                                                      class="text-info"><?= $meminfo['memTotal']; ?> </span>
-                , <?php __('Used'); ?> <span id="meminfo_Used"
-                                             class="text-info"><?= $meminfo['memUsed']; ?></span>
-                , <?php __('Cached'); ?> <span id="meminfo_Buffers"
-                                               class="text-info"><?= $meminfo['memBuffers']; ?></span>
+                <?php __('Physical Memory'); ?> <span id="meminfo_Total" class="text-info"><?= $meminfo['memTotal']; ?> </span>
+                , <?php __('Used'); ?> <span id="meminfo_Used" class="text-info"><?= $meminfo['memUsed']; ?></span>
+                , <?php __('Cached'); ?> <span id="meminfo_Buffers" class="text-info"><?= $meminfo['memBuffers']; ?></span>
                 / <span id="meminfo_Cached" class="text-info"><?= $meminfo['memCached']; ?></span>
-                , <?php __('Free'); ?> <span id="meminfo_Free"
-                                             class="text-info"><?= $meminfo['memFree']; ?></span>
-                , <?php __('Percent'); ?> <span
-                        id="meminfo_UsedPercent"><?= $meminfo['memUsedPercent']; ?></span>%<br>
+                , <?php __('Free'); ?> <span id="meminfo_Free" class="text-info"><?= $meminfo['memFree']; ?></span>
+                , <?php __('Percent'); ?> <span id="meminfo_UsedPercent"><?= $meminfo['memUsedPercent']; ?></span>%<br>
                 <div class="progress">
-                    <div id="meminfo_UsedBar" class="progress-bar progress-bar-success" role="progressbar"
-                         style="width:<?= $meminfo['memUsedPercent']; ?>%"></div>
-                    <div id="meminfo_BuffersBar" class="progress-bar progress-bar-info" role="progressbar"
-                         style="width:<?= $meminfo['memBuffersPercent']; ?>%"></div>
-                    <div id="meminfo_CachedBar" class="progress-bar progress-bar-warning" role="progressbar"
-                         style="width:<?= $meminfo['memCachedPercent']; ?>%"></div>
+                    <div id="meminfo_UsedBar" class="progress-bar progress-bar-success" role="progressbar" style="width:<?= $meminfo['memUsedPercent']; ?>%"></div>
+                    <div id="meminfo_BuffersBar" class="progress-bar progress-bar-info" role="progressbar" style="width:<?= $meminfo['memBuffersPercent']; ?>%"></div>
+                    <div id="meminfo_CachedBar" class="progress-bar progress-bar-warning" role="progressbar" style="width:<?= $meminfo['memCachedPercent']; ?>%"></div>
                 </div>
-                <?php if ($meminfo['swapTotal'] > 0): ?>
+                <?php if ($meminfo['swapTotal'] > 0) : ?>
                     SWAP：<span id="meminfo_swapTotal"><?= $meminfo['swapTotal']; ?></span>
                     , <?php __('Used'); ?> <span id="meminfo_swapUsed"><?= $meminfo['swapUsed']; ?></span>
                     , <?php __('Free'); ?> <span id="meminfo_swapFree"><?= $meminfo['swapFree']; ?></span>
-                    , <?php __('Percent'); ?> <span
-                            id="meminfo_swapPercent"><?= $meminfo['swapPercent']; ?></span>%
+                    , <?php __('Percent'); ?> <span id="meminfo_swapPercent"><?= $meminfo['swapPercent']; ?></span>%
                     <div class="progress">
-                        <div id="meminfo_swapBar" class="progress-bar progress-bar-danger" role="progressbar"
-                             style="width:<?= $meminfo['swapPercent']; ?>%"></div>
+                        <div id="meminfo_swapBar" class="progress-bar progress-bar-danger" role="progressbar" style="width:<?= $meminfo['swapPercent']; ?>%"></div>
                     </div>
                 <?php endif; ?>
             </td>
@@ -155,8 +143,7 @@ function __($message)
                 <?php __('Free'); ?> <span id="diskinfo_Free"><?= $diskinfo['diskFree']; ?></span>&nbsp;G，
                 <?php __('Percent'); ?> <span id="diskinfo_Percent"><?= $diskinfo['diskPercent']; ?></span>%
                 <div class="progress">
-                    <div id="diskinfo_UsedBar" class="progress-bar progress-bar-black" role="progressbar"
-                         style="width:<?= $diskinfo['diskPercent']; ?>%"></div>
+                    <div id="diskinfo_UsedBar" class="progress-bar progress-bar-black" role="progressbar" style="width:<?= $diskinfo['diskPercent']; ?>%"></div>
                 </div>
             </td>
         </tr>
@@ -173,17 +160,13 @@ function __($message)
         <?php foreach ($netdev as $dev => $info) : ?>
             <tr>
                 <td style="width:13%"><?= $dev; ?> :</td>
-                <td style="width:29%"><?php __('Rx'); ?>: <span class="text-info"
-                                                                id="<?php printf('netdev_%s_human_rx', $dev); ?>"><?= $info['human_rx'] ?></span>
+                <td style="width:29%"><?php __('Rx'); ?>: <span class="text-info" id="<?php printf('netdev_%s_human_rx', $dev); ?>"><?= $info['human_rx'] ?></span>
                 </td>
-                <td style="width:14%"><?php __('Realtime'); ?>: <span class="text-info"
-                                                                      id="<?php printf('netdev_%s_delta_rx', $dev); ?>">0B/s</span>
+                <td style="width:14%"><?php __('Realtime'); ?>: <span class="text-info" id="<?php printf('netdev_%s_delta_rx', $dev); ?>">0B/s</span>
                 </td>
-                <td style="width:29%"><?php __('Tx'); ?>: <span class="text-info"
-                                                                id="<?php printf('netdev_%s_human_tx', $dev); ?>"><?= $info['human_tx'] ?></span>
+                <td style="width:29%"><?php __('Tx'); ?>: <span class="text-info" id="<?php printf('netdev_%s_human_tx', $dev); ?>"><?= $info['human_tx'] ?></span>
                 </td>
-                <td style="width:14%"><?php __('Realtime'); ?>: <span class="text-info"
-                                                                      id="<?php printf('netdev_%s_delta_tx', $dev); ?>">0B/s</span>
+                <td style="width:14%"><?php __('Realtime'); ?>: <span class="text-info" id="<?php printf('netdev_%s_delta_tx', $dev); ?>">0B/s</span>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -219,28 +202,27 @@ function __($message)
         </tr>
     </table>
 
-    <p>Processed in <?php printf('%0.1f', (microtime(true) - $time_start)*1000);?> ms, <?= round(memory_get_usage() / 1024, 0).' KB';?> memory usage.</p>
+    <p>Processed in <?php printf('%0.1f', (microtime(true) - $time_start) * 1000); ?> ms, <?= round(memory_get_usage() / 1024, 0) . ' KB'; ?> memory usage.</p>
 </div>
 
 <script type="text/javascript">
     var dom = {
         element: null,
-        get: function (o) {
-            function F() {
-            }
+        get: function(o) {
+            function F() {}
 
             F.prototype = this
             obj = new F()
             obj.element = (typeof o == "object") ? o : document.createElement(o)
             return obj
         },
-        width: function (w) {
+        width: function(w) {
             if (!this.element)
                 return
             this.element.style.width = w
             return this
         },
-        html: function (h) {
+        html: function(h) {
             if (!this.element)
                 return
             this.element.innerHTML = h
@@ -248,11 +230,11 @@ function __($message)
         }
     };
 
-    $ = function (s) {
+    $ = function(s) {
         return dom.get(document.getElementById(s.substring(1)))
     };
 
-    $.getJSON = function (url, f) {
+    $.getJSON = function(url, f) {
         var xhr = null;
         if (window.XMLHttpRequest) {
             xhr = new XMLHttpRequest();
@@ -260,7 +242,7 @@ function __($message)
             xhr = new ActiveXObject('MSXML2.XMLHTTP.3.0');
         }
         xhr.open('GET', url + '&_=' + new Date().getTime(), true)
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 if (window.JSON) {
                     f(JSON.parse(xhr.responseText))
@@ -276,7 +258,7 @@ function __($message)
     var netdev = <?= json_encode($netdev); ?>;
 
     function getSysinfo() {
-        $.getJSON('?method=sysinfo', function (data) {
+        $.getJSON('?method=sysinfo', function(data) {
             $('#uptime').html(data.uptime)
             $('#stime').html(data.stime)
 
@@ -334,8 +316,7 @@ function __($message)
         });
     }
 
-    window.onload = function () {
+    window.onload = function() {
         setInterval(getSysinfo, 1000)
     }
-
 </script>
