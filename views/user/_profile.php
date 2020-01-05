@@ -12,7 +12,7 @@ use yii\web\Session;
 
 <?php $form = ActiveForm::begin(); ?>
 
-<?= $form->field($model, 'nickname')->textInput([]) ?>
+<?= $form->field($model, 'nickname')->textInput(['disabled' => true]) ?>
 
 <?= $form->field($profile, 'qq_number')->textInput(['disabled' => true]) ?>
 
