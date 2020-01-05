@@ -17,7 +17,7 @@
 **注意！！！此方法目前仅在 Ubuntu 18.04、Ubuntu 16.04、Centos 7.2+ 中测试通过。其它 Linux 系统还未测试。**
 
 执行以下命令，进行安装：
-```
+```shell
 wget https://raw.githubusercontent.com/shi-yang/jnoj/master/docs/install.sh
 sudo bash install.sh
 ```
@@ -36,8 +36,10 @@ sudo bash install.sh
 
 1. 下载　`jnoj`。
     运行命令：
-    ~~~
-    git clone https://github.com/shi-yang/jnoj.git
+    
+    ~~~shell
+    #二次开发版本
+    git clone https://github.com/yuuxeun/HUNAU_ACM_OJ.git
     ~~~
 
 2. 配置 Web 端
@@ -53,7 +55,7 @@ sudo bash install.sh
             'password' => '123456',
             'charset' => 'utf8',
         ];
-        ``` 
+        ```
         **注意：** Web 程序不会为你创建数据库，需要你自己手动创建该数据库（创建方法：运行 `mysql -u root -p` 登录MySQL，然后 `create database jnoj;`，执行 `quit;` 可退出MySQL，注意此处命令有分号）。
 
     2. 执行安装命令
@@ -61,7 +63,7 @@ sudo bash install.sh
         进入 jnoj 目录，在命令行运行 `./yii install` 来安装。安装过程会自动导入所需的 SQL 数据，并且需要你根据提示输入 OJ 管理员的账号密码。
     
     3. 修改 `/etc/nginx/sites-enabled/default` 文件，需要修改的配置：
-        ```
+        ```shell
         server {
                 listen 80 default_server;
                 listen [::]:80 default_server;
@@ -86,13 +88,15 @@ sudo bash install.sh
         修改后使用 `sudo nginx -s reload` 重现加载配置
     做好以上步骤后便可以使用 Web 端：
     
-    ~~~
-    http://ip地址
-    本地主机则访问  http://127.0.0.1
-    ~~~
-    
-    此时还不能进行判题，需配置判题机才能判题。
-    
+
+http://ip地址
+本地主机则访问  http://127.0.0.1
+
+~~~
+
+此时还不能进行判题，需配置判题机才能判题。
+~~~
+
 3. 配置判题机
     1. 安装编译的依赖，运行命令：`sudo apt install libmysqlclient-dev libmysql++-dev`
     2. 创建一个用于判题的用户，运行命令：`sudo useradd -m -u 1536 judge`
@@ -100,7 +104,7 @@ sudo bash install.sh
     4. 运行 `sudo ./dispatcher` 命令
 
 4. 配置配置多边形系统
-    
+   
     1. 将控制台切换到 `polygon` 目录（即运行 `cd polygon`命令），然后运行 `make` 命令
     2. 运行 `sudo ./polygon` 命令
 
@@ -109,7 +113,7 @@ sudo bash install.sh
 注意，在下面这些命令中，有 `vim` 开头的是需要编辑文件的，若不会使用 `vim`，则将 `vim` 改成 `nano`。执行 `nano  文件名` 命令后会进入 nano 编辑器并打开文件，修改好用组合键 `Ctrl X` 退出。
 
 ##### 创建数据库
-~~~
+~~~shell
 $ mysql -u root -p
 mysql> create database jnoj;
 mysql> quit;
@@ -118,7 +122,7 @@ mysql> quit;
 ##### 安装过程
 
 在以下命令中，`#` 字符及之后的字符为注释，不用输入
-~~~
+~~~shell
 $ git clone https://github.com/shi-yang/jnoj.git
 $ cd jnoj
 $ vim config/db.php
