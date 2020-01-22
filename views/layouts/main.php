@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use app\widgets\Alert;
@@ -13,21 +14,21 @@ use app\assets\AppAsset;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
-<!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+    <!DOCTYPE html>
+    <html lang="<?= Yii::$app->language ?>">
 
-<head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
-    <link rel="shortcut icon" href="<?= Yii::getAlias('@web') ?>/favicon.ico">
-</head>
+    <head>
+        <meta charset="<?= Yii::$app->charset ?>">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?= Html::csrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?></title>
+        <?php $this->head() ?>
+        <link rel="shortcut icon" href="<?= Yii::getAlias('@web') ?>/favicon.ico">
+    </head>
 
-<body>
+    <body>
     <?php $this->beginBody() ?>
 
     <div class="wrap">
@@ -37,7 +38,7 @@ AppAsset::register($this);
                     <div class="logo pull-left">
                         <div class="pull-left">
                             <a class="navbar-brand" href="<?= Yii::$app->request->baseUrl ?>">
-                                <img src="<?= Yii::getAlias('@web') ?>/images/logo.png" />
+                                <img src="<?= Yii::getAlias('@web') ?>/images/logo.png"/>
                             </a>
                         </div>
                         <div class="brand">
@@ -52,7 +53,7 @@ AppAsset::register($this);
         <?php
         NavBar::begin([
             // 'brandLabel' => Yii::$app->setting->get('ojName'),
-            'brandLabel' => '(๑′ᴗ‵๑) 𝓛ᵒᵛᵉᵧₒᵤ',
+            'brandLabel' => '(๑′ᴗ‵๑)',
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar-middle',    // navbar-default
@@ -101,7 +102,7 @@ AppAsset::register($this);
                         'active' => Yii::$app->controller->module->id == 'admin'
                     ];
                 }
-                $menuItems[] =  [
+                $menuItems[] = [
                     'label' => '<span class="glyphicon glyphicon-user"></span> ' . Yii::$app->user->identity->nickname,
                     'items' => [
                         ['label' => '<span class="glyphicon glyphicon-home"></span> ' . Yii::t('app', 'Profile'), 'url' => ['/user/view', 'id' => Yii::$app->user->id]],
@@ -111,7 +112,7 @@ AppAsset::register($this);
                     ]
                 ];
             } else {
-                $menuItems[] =  ['label' => '请先验证邮箱后点此退出后重新登录', 'url' => ['/site/logout']];
+                $menuItems[] = ['label' => '请先验证邮箱后点此退出后重新登录', 'url' => ['/site/logout']];
             }
         }
         echo Nav::widget([
@@ -146,7 +147,7 @@ AppAsset::register($this);
     </footer>
 
     <?php $this->endBody() ?>
-</body>
+    </body>
 
-</html>
+    </html>
 <?php $this->endPage() ?>
