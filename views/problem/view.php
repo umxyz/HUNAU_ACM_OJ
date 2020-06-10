@@ -164,9 +164,9 @@ $nextProblemID = $model->getNextProblemID();
                     <p><?= $model->submit ?></p>
                 </div>
                 <div class="separator"></div>
-                <!-- <div>
+                <div>
                     <?= Html::a('旧版界面', ['/problem/view', 'id' => $model->id, 'view' => 'classic']) ?>
-                </div> -->
+                </div>
             </div>
         </div>
         <div class="problem-splitter">
