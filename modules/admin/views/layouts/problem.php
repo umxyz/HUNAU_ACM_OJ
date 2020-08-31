@@ -19,7 +19,7 @@ $model = $this->params['model'];
             ['label' => Yii::t('app', 'Rejudge'), 'url' => ['/admin/rejudge/index']],
             ['label' => Yii::t('app', 'Setting'), 'url' => ['/admin/setting/index']],
             ['label' => Yii::t('app', 'Polygon System'), 'url' => ['/polygon']],
-            ['label' => 'OJ ' . Yii::t('app', 'Update'), 'url' => ['/admin/update/index']]
+            // ['label' => 'OJ ' . Yii::t('app', 'Update'), 'url' => ['/admin/update/index']]
         ],
     ]) ?>
 </div>

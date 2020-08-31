@@ -94,19 +94,6 @@ class SystemInfo
         return $uptime;
     }
 
-    public static function getTempInfo()
-    {
-        $info = ['cpu' => 0, 'gpu' => 'null'];
-
-        if ($str = @file('/sys/class/thermal/thermal_zone0/temp'))
-            $info['cpu'] = doubleval($str[0])  / 1000.0;
-
-        if ($str = @file('/sys/class/thermal/thermal_zone10/temp'))
-            $info['gpu'] = doubleval($str[0]) / 1000.0;
-
-        return $info;
-    }
-
     public static function getMemInfo()
     {
         $info = [];

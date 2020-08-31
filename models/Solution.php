@@ -180,7 +180,8 @@ class Solution extends ActiveRecord
                 $res = 'Python3';
                 break;
             default:
-                $res = 'not set';
+                // $res = 'not set';
+                $res = 'C++';
                 break;
         }
         return $res;
@@ -207,7 +208,8 @@ class Solution extends ActiveRecord
                 $res = 'py';
                 break;
             default:
-                $res = 'txt';
+                // $res = 'txt';
+                $res = 'cpp';
                 break;
         }
         return $res;
@@ -276,8 +278,8 @@ class Solution extends ActiveRecord
             '' => 'All',
             '0' => 'C',
             '1' => 'C++',
-            '2' => 'Java',
-            '3' => 'Python3'
+            // '2' => 'Java',
+            // '3' => 'Python3'
         ];
         return $status === '' ? $arr : $arr[$status];
     }

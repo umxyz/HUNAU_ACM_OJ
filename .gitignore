@@ -1,9 +1,3 @@
-# ssl
-.well-known
-# baota setting
-/web/.htaccess
-/web/.user.ini
-
 # phpstorm project files
 .idea
 

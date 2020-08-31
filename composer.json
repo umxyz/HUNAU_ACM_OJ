@@ -4,7 +4,7 @@
     "keywords": [
         "online judge"
     ],
-    "homepage": "http://www.github.com/shi-yang/jnoj",
+    "homepage": "https://www.github.com/shi-yang/jnoj",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
@@ -45,14 +45,12 @@
     },
     "extra": {
         "yii\\composer\\Installer::postCreateProject": {
-            "setPermission": [
-                {
-                    "runtime": "0777",
-                    "web/assets": "0777",
-                    "yii": "0755",
-                    "web/uploads": "0777"
-                }
-            ]
+            "setPermission": [{
+                "runtime": "0777",
+                "web/assets": "0777",
+                "yii": "0755",
+                "web/uploads": "0777"
+            }]
         },
         "yii\\composer\\Installer::postInstall": {
             "generateCookieValidationKey": [
@@ -60,10 +58,8 @@
             ]
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
+    "repositories": [{
+        "type": "composer",
+        "url": "https://asset-packagist.org"
+    }]
 }

@@ -56,10 +56,10 @@ $this->title = Yii::t('app', 'Setting');
     <hr>
     <div class="form-horizontal">
         <h4>配置 SMTP 发送邮箱</h4>
-        <p class="hint-block">
+        <!-- <p class="hint-block">
             在用户忘记密码时，需要通过此处配置的邮箱来发送"重置密码"的邮箱给用户。
             若使用默认的 "no-reply@jnoj.org"，不能保证此默认邮箱长期可用，建议自行配置自己的邮箱。
-        </p>
+        </p> -->
 
         <div class="form-group">
             <?= Html::label('邮箱验证码有效时间', 'passwordResetTokenExpire', ['class' => 'col-sm-2 control-label']) ?>
